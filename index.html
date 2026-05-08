@@ -579,6 +579,7 @@
       display: flex; align-items: center; gap: 6px;
     }
     .gcard-status::before { content: '●'; font-size: 0.5rem; }
+    .gcard-status-wip { color: var(--neon2); }
     .gcard-btn {
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.72rem;
@@ -1134,7 +1135,7 @@
   <section id="vr">
     <div class="s-label fade-in">NÍVEL MÁXIMO</div>
     <h2 class="s-title fade-in">VR / XR</h2>
-    <p class="s-sub fade-in">[ 2 PROJETOS // OCULUS / SAMSUNG GALAXY XR ]</p>
+    <p class="s-sub fade-in">[ 3 PROJETOS // OCULUS / SAMSUNG GALAXY XR / AVIAÇÃO ]</p>
     <div class="cards-grid">
 
       <div class="gcard fade-in" onclick="openModal('bridge')">
@@ -1159,6 +1160,19 @@
         </div>
         <div class="gcard-footer">
           <span class="gcard-status">PUBLICADO</span>
+          <button class="gcard-btn">[ DETALHES ]</button>
+        </div>
+      </div>
+
+      <div class="gcard fade-in" onclick="openModal('azul-conecta')">
+        <div class="gcard-thumb"><span class="gcard-id">VR_003</span>✈️</div>
+        <div class="gcard-body">
+          <div class="gcard-tags"><span class="gtag gtag-neon">VR</span><span class="gtag gtag-cyan">Unity</span><span class="gtag gtag-purple">Aviação</span></div>
+          <div class="gcard-title">AZUL CONECTA VR</div>
+          <div class="gcard-desc">Simulador VR para treinamento de pilotos. Cockpit em escala real do Cessna Grand Caravan com 68 procedimentos e hand tracking.</div>
+        </div>
+        <div class="gcard-footer">
+          <span class="gcard-status gcard-status-wip">EM DESENVOLVIMENTO</span>
           <button class="gcard-btn">[ DETALHES ]</button>
         </div>
       </div>
@@ -1337,6 +1351,15 @@
         meta: [['FUNÇÃO', 'Software Engineer'], ['ENGINE', 'Unity 3D'], ['TECNOLOGIA', 'OpenXR + C#'], ['PLATAFORMA', 'Samsung Galaxy XR']],
         video: 'r0AyzvfTRLo',
         links: []
+      },
+      'azul-conecta': {
+        id: 'VR_003 // AVIAÇÃO',
+        title: 'AZUL CONECTA VR',
+        tags: [['VR', 'gtag-neon'], ['Unity', 'gtag-cyan'], ['Aviação', 'gtag-purple']],
+        desc: 'Simulador VR para treinamento de pilotos da Azul Conecta, desenvolvido em parceria com a Plan XP. Cockpit em escala real do Cessna Grand Caravan com 68 procedimentos de SOP cobertos, hand tracking e relatórios automáticos de desempenho. O projeto foi iniciado antes da transição para a Samsung Sidia.',
+        meta: [['FUNÇÃO', 'Programação'], ['ENGINE', 'Unity 3D'], ['TECNOLOGIA', 'VR + Hand Tracking'], ['AERONAVE', 'Cessna Grand Caravan'], ['CLIENTE', 'Azul Conecta / Plan XP'], ['STATUS', 'Iniciado']],
+        video: 'LnMlklS8Sb8',
+        links: [{ label: '📰 VER NOTÍCIA', url: 'https://www.panrotas.com.br/aviacao/empresas/2022/03/azul-conecta-implementa-realidade-virtual-para-treinar-pilotos_188339.html', style: 'btn-outline' }]
       }
     };
 
