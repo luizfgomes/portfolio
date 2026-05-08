@@ -173,7 +173,44 @@
       letter-spacing: 0.25em;
     }
 
-    .hero-content { position: relative; max-width: 800px; }
+    .hero-inner { position: relative; width: 100%; display: grid; grid-template-columns: 1fr 420px; align-items: center; gap: 60px; }
+    .hero-content { position: relative; }
+    .hero-terminal {
+      position: relative;
+      background: rgba(0,255,136,0.03);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 4px;
+      padding: 28px 28px 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      line-height: 1.9;
+      overflow: hidden;
+    }
+    .hero-terminal::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px);
+      pointer-events: none;
+    }
+    .ht-bar {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ht-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .ht-dot-r { background: #ff5f57; }
+    .ht-dot-y { background: #febc2e; }
+    .ht-dot-g { background: var(--neon); }
+    .ht-title { color: var(--muted); margin-left: 4px; font-size: 0.72rem; letter-spacing: 0.15em; }
+    .ht-line { display: flex; gap: 12px; }
+    .ht-key { color: var(--neon); min-width: 80px; }
+    .ht-val { color: var(--text); }
+    .ht-prompt { color: var(--neon); margin-top: 14px; }
+    .ht-cursor { display: inline-block; width: 8px; height: 13px; background: var(--neon); vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .ht-divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
 
     .hero-status {
       display: inline-flex; align-items: center; gap: 10px;
@@ -772,6 +809,8 @@
       .nav-links { display: none; }
       .hero, section { padding-left: 24px; padding-right: 24px; }
       .hud-stats { flex-direction: column; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-terminal { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
       .contact-box { padding: 36px 24px; }
@@ -881,6 +920,7 @@
   <section class="hero">
     <div class="hero-glow"></div>
     <div class="hero-glow2"></div>
+    <div class="hero-inner">
     <div class="hero-content fade-in">
       <div class="hero-status">
         <span class="status-dot"></span>
@@ -910,6 +950,29 @@
           <div class="hud-stat-value">4M+</div>
         </div>
       </div>
+    </div>
+
+    <div class="hero-terminal fade-in">
+      <div class="ht-bar">
+        <span class="ht-dot ht-dot-r"></span>
+        <span class="ht-dot ht-dot-y"></span>
+        <span class="ht-dot ht-dot-g"></span>
+        <span class="ht-title">PLAYER_PROFILE.EXE</span>
+      </div>
+      <div class="ht-line"><span class="ht-key">> NAME</span><span class="ht-val">LUIZ GOMES</span></div>
+      <div class="ht-line"><span class="ht-key">> CLASS</span><span class="ht-val">UNITY DEVELOPER</span></div>
+      <div class="ht-line"><span class="ht-key">> SPEC</span><span class="ht-val">XR / AR / VR</span></div>
+      <div class="ht-line"><span class="ht-key">> LEVEL</span><span class="ht-val">10+ YEARS</span></div>
+      <div class="ht-line"><span class="ht-key">> STATUS</span><span class="ht-val" style="color:var(--neon)">ONLINE ●</span></div>
+      <hr class="ht-divider" />
+      <div class="ht-line"><span class="ht-key">> SHIPPED</span><span class="ht-val">25+ PROJECTS</span></div>
+      <div class="ht-line"><span class="ht-key">> REACH</span><span class="ht-val">4M+ USERS</span></div>
+      <hr class="ht-divider" />
+      <div class="ht-line"><span class="ht-key">> STACK</span><span class="ht-val">Unity · C# · Vuforia</span></div>
+      <div class="ht-line"><span class="ht-key"></span><span class="ht-val">ARCore · OpenXR · Photon</span></div>
+      <div class="ht-prompt">> <span class="ht-cursor"></span></div>
+    </div>
+
     </div>
   </section>
 
@@ -1388,7 +1451,8 @@
       const meta = (lang === 'en' && p.metaEn) ? p.metaEn : p.meta;
       document.getElementById('modal-meta').innerHTML = meta.map(([label, value]) =>
         `<div class="modal-meta-item"><span class="modal-meta-label">${label}</span><span class="modal-meta-value">${value}</span></div>`).join('');
-      document.getElementById('modal-links').innerHTML = p.links.map(l =>
+      const links = (lang === 'en' && p.linksEn) ? p.linksEn : p.links;
+      document.getElementById('modal-links').innerHTML = links.map(l =>
         `<a href="${l.url}" target="_blank" rel="noopener" class="btn ${l.style}">${l.label}</a>`).join('');
       const videoEl = document.getElementById('modal-video');
       if (p.video) {
@@ -1536,6 +1600,10 @@
     projects['galaxy-xr'].metaEn = [['ROLE','Software Engineer'],['ENGINE','Unity 3D'],['TECHNOLOGY','OpenXR + C#'],['PLATFORM','Samsung Galaxy XR']];
     projects['azul-conecta'].desc_en = 'VR pilot training simulator for Azul Conecta. Full-scale Cessna Grand Caravan cockpit with 68 SOP procedures covered, hand tracking, and automated performance reports. The project was started before transitioning to Samsung Sidia.';
     projects['azul-conecta'].metaEn = [['ROLE','Programming'],['ENGINE','Unity 3D'],['TECHNOLOGY','VR + Hand Tracking'],['AIRCRAFT','Cessna Grand Caravan'],['CLIENT','Azul Conecta']];
+    projects['guide-crossing'].linksEn = [{ label: '▶ PLAY NOW', url: 'https://bit.ly/3zvq37o', style: 'btn-neon' }];
+    projects['xalingo'].linksEn = [{ label: '▶ PLAY NOW', url: 'https://clubinho.xalingo.com.br/jogos/xalinguinho-na-cidade-do-futuro', style: 'btn-neon' }];
+    projects['renner'].linksEn = [{ label: '✦ LOL SURPRISES', url: 'https://bit.ly/2V92KRO', style: 'btn-outline' }, { label: '✦ WHICH LOL ARE YOU?', url: 'https://bit.ly/36WtNm3', style: 'btn-outline' }];
+    projects['azul-conecta'].linksEn = [{ label: '📰 READ ARTICLE', url: 'https://www.panrotas.com.br/aviacao/empresas/2022/03/azul-conecta-implementa-realidade-virtual-para-treinar-pilotos_188339.html', style: 'btn-outline' }];
 
     function setLang(lang) {
       window.currentLang = lang;
