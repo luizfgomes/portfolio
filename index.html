@@ -1273,6 +1273,7 @@
         tags: [['Vuforia', 'gtag-cyan'], ['Kinect', 'gtag-orange'], ['Android / iOS', 'gtag-neon']],
         desc: 'App AR desenvolvido para o Sesc-RS. O usuário colore um personagem em papel, captura as cores com a câmera e joga dois minigames: futebol onde o personagem equilibra uma bola na cabeça, e basquete para acumular pontuações consecutivas.',
         meta: [['FUNÇÃO', 'Programação, Audio Design'], ['ENGINE', 'Unity 3D'], ['TECNOLOGIA', 'Vuforia SDK + Kinect 2.0'], ['PLATAFORMA', 'Android e iOS'], ['CLIENTE', 'Sesc-RS']],
+        videoFb: 'https://www.facebook.com/SescRS/videos/app-sesquito-/2329300683844546/',
         links: []
       },
       'rede-ideal': {
@@ -1336,9 +1337,12 @@
       document.getElementById('modal-links').innerHTML = p.links.map(l =>
         `<a href="${l.url}" target="_blank" rel="noopener" class="btn ${l.style}">${l.label}</a>`).join('');
       const videoEl = document.getElementById('modal-video');
-      videoEl.innerHTML = p.video
-        ? `<iframe src="https://www.youtube.com/embed/${p.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-        : '';
+      if (p.video)
+        videoEl.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      else if (p.videoFb)
+        videoEl.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(p.videoFb)}&show_text=false" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" scrolling="no"></iframe>`;
+      else
+        videoEl.innerHTML = '';
       document.getElementById('modal-overlay').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
