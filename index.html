@@ -143,7 +143,6 @@
     /* ── TOASTY ── */
     .toasty {
       position: fixed;
-      bottom: -140px;
       right: 28px;
       z-index: 9998;
       display: flex;
@@ -151,18 +150,20 @@
       align-items: center;
       gap: 4px;
       pointer-events: none;
-      transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
     }
-    .toasty.show { bottom: 28px; }
-    .toasty.hide { bottom: -140px; transition: bottom 0.35s ease-in; }
+    .toasty.from-bottom { bottom: 28px; transform: translateY(160px); }
+    .toasty.from-top    { top: 28px;    transform: translateY(-160px); flex-direction: column-reverse; }
+    .toasty.show        { opacity: 1; transform: translateY(0); pointer-events: all; cursor: crosshair; }
+    .toasty.hide        { opacity: 0; }
     .toasty-face {
       filter: drop-shadow(0 0 14px rgba(255,107,53,0.9));
-      animation: none;
     }
     .toasty.show .toasty-face { animation: toasty-bounce 0.4s ease; }
     @keyframes toasty-bounce {
       0%,100% { transform: scale(1); }
-      40%     { transform: scale(1.25); }
+      40%     { transform: scale(1.3); }
     }
     .toasty-text {
       font-family: 'Orbitron', monospace;
@@ -171,6 +172,57 @@
       color: var(--neon3);
       text-shadow: 0 0 20px rgba(255,107,53,1), 0 0 40px rgba(255,107,53,0.6);
       letter-spacing: 0.25em;
+    }
+    .toasty-score-display {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      font-weight: 900;
+      color: var(--neon3);
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 8px rgba(255,107,53,0.9);
+      white-space: nowrap;
+    }
+    .toasty-plus1 {
+      position: fixed;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--neon3);
+      text-shadow: 0 0 16px rgba(255,107,53,1);
+      pointer-events: none;
+      z-index: 9999;
+      animation: plus1-fly 0.9s ease-out forwards;
+    }
+    @keyframes plus1-fly {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.4); }
+    }
+    /* Toasty score badge fixo */
+    #toasty-badge {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 9000;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: var(--neon3);
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 10px rgba(255,107,53,0.7);
+      background: rgba(5,5,10,0.85);
+      border: 1px solid rgba(255,107,53,0.3);
+      padding: 6px 12px;
+      display: none;
+    }
+    /* Terminal typing animation */
+    .ht-line, .ht-divider, .ht-prompt {
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .ht-line.ht-visible, .ht-divider.ht-visible, .ht-prompt.ht-visible {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .hero-inner { position: relative; width: 100%; display: grid; grid-template-columns: 1fr 420px; align-items: center; gap: 60px; }
@@ -911,10 +963,12 @@
   </nav>
 
   <!-- TOASTY -->
-  <div class="toasty" id="toasty">
+  <div class="toasty from-bottom" id="toasty">
+    <div class="toasty-score-display" id="toasty-score-display"></div>
     <div class="toasty-face"><img src="Imagens/Toasty/Toasty.png" alt="Toasty" style="width:90px;height:auto;display:block;" /></div>
     <div class="toasty-text">TOASTY!</div>
   </div>
+  <div id="toasty-badge"></div>
 
   <!-- HERO -->
   <section class="hero">
@@ -1280,18 +1334,85 @@
   </footer>
 
   <script>
-    // Toasty
+    // ── TOASTY MINI-GAME ──
+    let toastyScore = parseInt(localStorage.getItem('toastyScore') || '0');
+    const toastyEl    = document.getElementById('toasty');
+    const scoreDisp   = document.getElementById('toasty-score-display');
+    const badge       = document.getElementById('toasty-badge');
+
+    function updateBadge() {
+      if (toastyScore > 0) {
+        badge.textContent = '🗣 TOASTY ×' + toastyScore;
+        badge.style.display = 'block';
+      }
+    }
+    updateBadge();
+
+    toastyEl.addEventListener('click', () => {
+      toastyScore++;
+      localStorage.setItem('toastyScore', toastyScore);
+      scoreDisp.textContent = '×' + toastyScore;
+      updateBadge();
+
+      // +1 flutuante saindo da cabeça
+      const rect = toastyEl.querySelector('.toasty-face').getBoundingClientRect();
+      const plus = document.createElement('div');
+      plus.className = 'toasty-plus1';
+      plus.textContent = '+1';
+      plus.style.left = (rect.left + rect.width / 2 - 14) + 'px';
+      plus.style.top  = (rect.top - 10) + 'px';
+      document.body.appendChild(plus);
+      plus.addEventListener('animationend', () => plus.remove());
+
+      // bounce extra no clique
+      const face = toastyEl.querySelector('.toasty-face');
+      face.style.animation = 'none';
+      void face.offsetWidth;
+      face.style.animation = 'toasty-bounce 0.3s ease';
+    });
+
     (function scheduleToasty() {
       setTimeout(() => {
-        const t = document.getElementById('toasty');
-        t.classList.remove('hide');
-        t.classList.add('show');
+        const fromTop = Math.random() < 0.5;
+        toastyEl.classList.remove('from-bottom', 'from-top', 'show', 'hide');
+        toastyEl.classList.add(fromTop ? 'from-top' : 'from-bottom');
+        scoreDisp.textContent = toastyScore > 0 ? '×' + toastyScore : '';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          toastyEl.classList.add('show');
+        }));
         setTimeout(() => {
-          t.classList.remove('show');
-          t.classList.add('hide');
+          toastyEl.classList.remove('show');
+          toastyEl.classList.add('hide');
           scheduleToasty();
         }, 2800);
       }, Math.random() * 54000 + 27000);
+    })();
+
+    // ── TERMINAL ANIMATION ──
+    (async function animateTerminal() {
+      const term = document.querySelector('.hero-terminal');
+      if (!term) return;
+      const lines = term.querySelectorAll('.ht-line, .ht-divider, .ht-prompt');
+      const saved = [];
+      lines.forEach((el, i) => {
+        const v = el.querySelector('.ht-val');
+        saved[i] = v ? v.textContent : null;
+        if (v) v.textContent = '';
+      });
+      const delay = ms => new Promise(r => setTimeout(r, ms));
+      await delay(900);
+      for (let i = 0; i < lines.length; i++) {
+        const el = lines[i];
+        el.classList.add('ht-visible');
+        if (saved[i]) {
+          const v = el.querySelector('.ht-val');
+          for (const ch of saved[i]) {
+            v.textContent += ch;
+            await delay(22);
+          }
+        }
+        await delay(el.classList.contains('ht-divider') ? 60 : 110);
+      }
     })();
 
     // Hologram elements
