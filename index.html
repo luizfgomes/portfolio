@@ -669,6 +669,8 @@
       background: rgba(0,255,136,0.03);
     }
     .modal-meta-value { color: var(--text); padding: 10px 16px; }
+    .modal-video { margin-bottom: 24px; }
+    .modal-video iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--border); border-radius: 4px; display: block; }
     .modal-links { display: flex; gap: 12px; flex-wrap: wrap; }
 
     /* ── CONTACT ── */
@@ -825,6 +827,7 @@
       <div class="modal-body">
         <div class="modal-tags" id="modal-tags"></div>
         <div class="modal-desc" id="modal-desc"></div>
+        <div class="modal-video" id="modal-video"></div>
         <div class="modal-meta" id="modal-meta"></div>
         <div class="modal-links" id="modal-links"></div>
       </div>
@@ -1215,6 +1218,7 @@
         tags: [['Unity', 'gtag-neon'], ['Game Jam', 'gtag-cyan'], ['Web / Windows', 'gtag-neon']],
         desc: 'Desenvolvido durante a Game Jam da Universidade Feevale em setembro de 2018. A equipe ficou em 2º lugar entre 19 projetos, com apenas um fim de semana de desenvolvimento após o tema ser revelado: cão guia. Uma experiência intensa que consolidou habilidades de programação, game design e level design sob pressão.',
         meta: [['FUNÇÃO', 'Programação, Game Design, Level Design'], ['ENGINE', 'Unity 3D'], ['PLATAFORMA', 'Web e Windows'], ['EVENTO', 'Game Jam Feevale / Patrocinador: Hercosul'], ['ANO', '2018'], ['RESULTADO', '2º lugar entre 19 projetos']],
+        video: 'oWFZ-LQquik',
         links: [{ label: '▶ JOGAR AGORA', url: 'https://bit.ly/3zvq37o', style: 'btn-neon' }]
       },
       'xalingo': {
@@ -1325,6 +1329,10 @@
         `<div class="modal-meta-item"><span class="modal-meta-label">${label}</span><span class="modal-meta-value">${value}</span></div>`).join('');
       document.getElementById('modal-links').innerHTML = p.links.map(l =>
         `<a href="${l.url}" target="_blank" rel="noopener" class="btn ${l.style}">${l.label}</a>`).join('');
+      const videoEl = document.getElementById('modal-video');
+      videoEl.innerHTML = p.video
+        ? `<iframe src="https://www.youtube.com/embed/${p.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        : '';
       document.getElementById('modal-overlay').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
