@@ -524,6 +524,7 @@
       position: relative;
       overflow: hidden;
     }
+    .gcard-thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .gcard-thumb::after {
       content: '';
       position: absolute; inset: 0;
@@ -977,7 +978,7 @@
     <div class="cards-grid">
 
       <div class="gcard fade-in" onclick="openModal('guide-crossing')">
-        <div class="gcard-thumb"><span class="gcard-id">PROJ_001</span>🐕‍🦺</div>
+        <div class="gcard-thumb"><span class="gcard-id">PROJ_001</span><img src="Imagens/Guide Crossing/1.jpg" alt="Guide Crossing" class="gcard-thumb-img" /></div>
         <div class="gcard-body">
           <div class="gcard-tags"><span class="gtag gtag-neon">Unity</span><span class="gtag gtag-cyan">Game Jam</span><span class="gtag gtag-neon">Web</span></div>
           <div class="gcard-title">GUIDE CROSSING</div>
