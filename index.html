@@ -70,18 +70,26 @@
       transition: color 0.2s, text-shadow 0.2s;
     }
     .nav-links a:hover { color: var(--neon); text-shadow: 0 0 10px rgba(0,255,136,0.5); }
-    .lang-btn {
+    .lang-switcher {
+      display: flex;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .lang-opt {
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       color: var(--muted);
       background: none;
-      border: 1px solid var(--border);
+      border: none;
+      border-right: 1px solid var(--border);
       padding: 4px 10px;
       cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s, background 0.2s;
     }
-    .lang-btn:hover { color: var(--neon); border-color: var(--neon); }
+    .lang-opt:last-child { border-right: none; }
+    .lang-opt:hover { color: var(--neon); }
+    .lang-opt.active { color: var(--neon); background: rgba(0,255,136,0.08); }
 
     /* ── HERO ── */
     .hero {
@@ -959,7 +967,11 @@
       <li><a href="#vr">// VR/XR</a></li>
       <li><a href="#contact" data-i18n="nav-contact">// CONTATO</a></li>
     </ul>
-    <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+    <div class="lang-switcher">
+      <button class="lang-opt active" id="lang-pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-opt" id="lang-en" onclick="setLang('en')">EN</button>
+      <button class="lang-opt" id="lang-es" onclick="setLang('es')">ES</button>
+    </div>
   </nav>
 
   <!-- TOASTY -->
@@ -1126,8 +1138,8 @@
           <div class="gcard-desc" data-i18n="card-guide-crossing">2º lugar em Game Jam da Feevale. Desenvolvido em um fim de semana com o tema "cão guia".</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">CONCLUÍDO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-concluido">CONCLUÍDO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1139,8 +1151,8 @@
           <div class="gcard-desc" data-i18n="card-xalingo">Releitura do Flappy Bird desenvolvida para a Xalingo Brinquedos. Programação, animação e áudio.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1152,8 +1164,8 @@
           <div class="gcard-desc" data-i18n="card-do-it">Instalação interativa com Kinect para inauguração de franquia de inglês no Vale dos Sinos.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">CONCLUÍDO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-concluido">CONCLUÍDO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1165,8 +1177,8 @@
           <div class="gcard-desc" data-i18n="card-dimensional">Primeiro jogo 3D na faculdade, inspirado em Resident Evil 2. Projeto do 4º semestre na Feevale.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">CONCLUÍDO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-concluido">CONCLUÍDO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1178,8 +1190,8 @@
           <div class="gcard-desc" data-i18n="card-7x1">Jogo multiplayer top-down estilo cartoon. Primeiro projeto online usando Photon SDK.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">CONCLUÍDO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-concluido">CONCLUÍDO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1191,8 +1203,8 @@
           <div class="gcard-desc" data-i18n="card-ambar">Projeto de conclusão de curso. MOBA multiplayer espacial desenvolvido em 4 meses com uNet.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">CONCLUÍDO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-concluido">CONCLUÍDO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1214,8 +1226,8 @@
           <div class="gcard-desc" data-i18n="card-sesquito">Personagem colorível pelo usuário com 2 minigames em AR. Desenvolvido para o Sesc-RS.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1227,8 +1239,8 @@
           <div class="gcard-desc" data-i18n="card-rede-ideal">Ferramenta AR para apresentação de gôndolas em escala real no ambiente do cliente.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1240,8 +1252,8 @@
           <div class="gcard-desc" data-i18n="card-sombras">App AR que dá vida a um quebra-cabeça físico com personagens animados interativos.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1253,8 +1265,8 @@
           <div class="gcard-desc" data-i18n="card-renner">2 filtros Instagram para a Renner. 3,9M de impressões · 5,1M de aberturas · 897k capturas.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">3,9M IMPRESSÕES</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-renner">3,9M IMPRESSÕES</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1276,8 +1288,8 @@
           <div class="gcard-desc" data-i18n="card-bridge">Simulação VR de todas as etapas construtivas de pontes para engenharia civil. Grupo A.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1289,8 +1301,8 @@
           <div class="gcard-desc" data-i18n="card-samsung">Desenvolvimento de aplicações nativas para o headset de realidade mista da Samsung. Features implementadas nativamente no dispositivo.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1302,8 +1314,8 @@
           <div class="gcard-desc" data-i18n="card-azul">Simulador VR para treinamento de pilotos. Cockpit em escala real do Cessna Grand Caravan com 68 procedimentos e hand tracking.</div>
         </div>
         <div class="gcard-footer">
-          <span class="gcard-status">PUBLICADO</span>
-          <button class="gcard-btn">[ DETALHES ]</button>
+          <span class="gcard-status" data-i18n="status-publicado">PUBLICADO</span>
+          <button class="gcard-btn" data-i18n="btn-details">[ DETALHES ]</button>
         </div>
       </div>
 
@@ -1568,11 +1580,17 @@
       document.getElementById('modal-tags').innerHTML = p.tags.map(([label, cls]) =>
         `<span class="gtag ${cls}">${label}</span>`).join('');
       const lang = window.currentLang || 'pt';
-      document.getElementById('modal-desc').textContent = (lang === 'en' && p.desc_en) ? p.desc_en : p.desc;
-      const meta = (lang === 'en' && p.metaEn) ? p.metaEn : p.meta;
+      document.getElementById('modal-desc').textContent =
+        (lang === 'es' && p.desc_es) ? p.desc_es :
+        (lang === 'en' && p.desc_en) ? p.desc_en : p.desc;
+      const meta =
+        (lang === 'es' && p.metaEs) ? p.metaEs :
+        (lang === 'en' && p.metaEn) ? p.metaEn : p.meta;
       document.getElementById('modal-meta').innerHTML = meta.map(([label, value]) =>
         `<div class="modal-meta-item"><span class="modal-meta-label">${label}</span><span class="modal-meta-value">${value}</span></div>`).join('');
-      const links = (lang === 'en' && p.linksEn) ? p.linksEn : p.links;
+      const links =
+        (lang === 'es' && p.linksEs) ? p.linksEs :
+        (lang === 'en' && p.linksEn) ? p.linksEn : p.links;
       document.getElementById('modal-links').innerHTML = links.map(l =>
         `<a href="${l.url}" target="_blank" rel="noopener" class="btn ${l.style}">${l.label}</a>`).join('');
       const videoEl = document.getElementById('modal-video');
@@ -1659,7 +1677,9 @@
         'contact-sub': 'ABERTO A PROJETOS FREELANCE, COLABORAÇÕES<br />E OPORTUNIDADES EM JOGOS, AR E VR.',
         'ph-name': '// SEU NOME', 'ph-email': '// SEU E-MAIL', 'ph-message': '// MENSAGEM',
         'btn-send': '▶ ENVIAR MENSAGEM', 'form-success': '✓ MENSAGEM ENVIADA. RESPONDEREI EM BREVE.',
-        'footer-version': 'v2.0.0 // UNITY DEVELOPER & XR SPECIALIST'
+        'footer-version': 'v2.0.0 // UNITY DEVELOPER & XR SPECIALIST',
+        'btn-details': '[ DETALHES ]',
+        'status-concluido': 'CONCLUÍDO', 'status-publicado': 'PUBLICADO', 'status-renner': '3,9M IMPRESSÕES'
       },
       en: {
         'nav-profile': '// PROFILE', 'nav-games': '// GAMES', 'nav-contact': '// CONTACT',
@@ -1690,7 +1710,42 @@
         'contact-sub': 'OPEN TO FREELANCE PROJECTS, COLLABORATIONS<br />AND OPPORTUNITIES IN GAMES, AR AND VR.',
         'ph-name': '// YOUR NAME', 'ph-email': '// YOUR E-MAIL', 'ph-message': '// MESSAGE',
         'btn-send': '▶ SEND MESSAGE', 'form-success': '✓ MESSAGE SENT. I\'LL GET BACK TO YOU SOON.',
-        'footer-version': 'v2.0.0 // UNITY DEVELOPER & XR SPECIALIST'
+        'footer-version': 'v2.0.0 // UNITY DEVELOPER & XR SPECIALIST',
+        'btn-details': '[ DETAILS ]',
+        'status-concluido': 'COMPLETED', 'status-publicado': 'PUBLISHED', 'status-renner': '3.9M IMPRESSIONS'
+      },
+      es: {
+        'nav-profile': '// PERFIL', 'nav-games': '// JUEGOS', 'nav-contact': '// CONTACTO',
+        'hero-status': 'DISPONIBLE PARA PROYECTOS',
+        'hero-desc': '10 años desarrollando experiencias inmersivas: juegos, realidad aumentada y realidad virtual que llegan a millones de personas.',
+        'btn-projects': '▶ VER PROYECTOS', 'btn-contact': 'CONTACTO',
+        'hud-projects': 'PROYECTOS', 'hud-users': 'USUARIOS',
+        'about-title': 'DEV &<br />PROFESOR', 'years-xp': 'AÑOS XP',
+        'profile-bio': 'Desarrollador Unity con <strong>más de 10 años de experiencia</strong>, especializado en juegos mobile, realidad aumentada y realidad virtual. Proyectos publicados para <strong>Renner, Sesc-RS, Samsung y Grupo A</strong>, alcanzando más de 3 millones de usuarios. Profesor de web, mobile, juegos digitales y mantenimiento en curso técnico.',
+        'attr-label': 'ATRIBUTOS', 'skill-ar': 'Realidad Aumentada',
+        'games-label': 'MISIONES COMPLETADAS', 'games-title': 'JUEGOS', 'games-sub': '[ 6 PROYECTOS PUBLICADOS // UNITY 3D ]',
+        'ar-label': 'HABILIDADES ESPECIALES', 'ar-title': 'REALIDAD AUMENTADA', 'ar-sub': '[ 4 PROYECTOS // VUFORIA / SPARK AR / ARCORE ]',
+        'vr-label': 'NIVEL MÁXIMO', 'vr-sub': '[ 3 PROYECTOS // OCULUS / SAMSUNG GALAXY XR / AVIACIÓN ]',
+        'card-guide-crossing': '2.º lugar en Game Jam de Feevale. Desarrollado en un fin de semana con el tema "perro guía".',
+        'card-xalingo': 'Reinterpretación de Flappy Bird para Xalingo Brinquedos. Programación, animación y audio.',
+        'card-do-it': 'Instalación interactiva con Kinect para la inauguración de una franquicia de inglés en Vale dos Sinos.',
+        'card-dimensional': 'Primer juego 3D en la universidad, inspirado en Resident Evil 2. Proyecto del 4.º semestre en Feevale.',
+        'card-7x1': 'Juego multijugador top-down estilo cartoon. Primer proyecto online usando Photon SDK.',
+        'card-ambar': 'Proyecto de fin de carrera. MOBA multijugador espacial desarrollado en 4 meses con uNet.',
+        'card-sesquito': 'Personaje coloreable por el usuario con 2 minijuegos en AR. Desarrollado para Sesc-RS.',
+        'card-rede-ideal': 'Herramienta AR para presentar góndolas a escala real en el entorno del cliente.',
+        'card-sombras': 'App AR que da vida a un rompecabezas físico con personajes animados interactivos.',
+        'card-renner': '2 filtros de Instagram para Renner. 3,9M impresiones · 5,1M aperturas · 897k capturas.',
+        'card-bridge': 'Simulación VR de todas las etapas constructivas de puentes para ingeniería civil. Grupo A.',
+        'card-samsung': 'Desarrollo de aplicaciones nativas para el headset de realidad mixta de Samsung. Funcionalidades implementadas nativamente en el dispositivo.',
+        'card-azul': 'Simulador VR para entrenamiento de pilotos. Cockpit a escala real del Cessna Grand Caravan con 68 procedimientos y hand tracking.',
+        'contact-label': 'INICIAR MISIÓN', 'contact-title': '¿TRABAJAMOS<br />JUNTOS?',
+        'contact-sub': 'ABIERTO A PROYECTOS FREELANCE, COLABORACIONES<br />Y OPORTUNIDADES EN JUEGOS, AR Y VR.',
+        'ph-name': '// TU NOMBRE', 'ph-email': '// TU E-MAIL', 'ph-message': '// MENSAJE',
+        'btn-send': '▶ ENVIAR MENSAJE', 'form-success': '✓ MENSAJE ENVIADO. TE RESPONDERÉ PRONTO.',
+        'footer-version': 'v2.0.0 // UNITY DEVELOPER & XR SPECIALIST',
+        'btn-details': '[ DETALLES ]',
+        'status-concluido': 'COMPLETADO', 'status-publicado': 'PUBLICADO', 'status-renner': '3,9M IMPRESIONES'
       }
     };
 
@@ -1726,10 +1781,37 @@
     projects['renner'].linksEn = [{ label: '✦ LOL SURPRISES', url: 'https://bit.ly/2V92KRO', style: 'btn-outline' }, { label: '✦ WHICH LOL ARE YOU?', url: 'https://bit.ly/36WtNm3', style: 'btn-outline' }];
     projects['azul-conecta'].linksEn = [{ label: '📰 READ ARTICLE', url: 'https://www.panrotas.com.br/aviacao/empresas/2022/03/azul-conecta-implementa-realidade-virtual-para-treinar-pilotos_188339.html', style: 'btn-outline' }];
 
-    const statusTranslations = {
-      'CONCLUÍDO': 'COMPLETED', 'PUBLICADO': 'PUBLISHED', '3,9M IMPRESSÕES': '3.9M IMPRESSIONS',
-      'COMPLETED': 'CONCLUÍDO', 'PUBLISHED': 'PUBLICADO', '3.9M IMPRESSIONS': '3,9M IMPRESSÕES'
-    };
+    // desc_es and metaEs for each project
+    projects['guide-crossing'].desc_es = 'Desarrollado durante el Game Jam de la Universidad Feevale en septiembre de 2018. El equipo quedó en 2.º lugar de 19 proyectos con solo un fin de semana de desarrollo tras revelar el tema: perro guía. Una experiencia intensa que fortaleció habilidades de programación, game design y level design bajo presión.';
+    projects['guide-crossing'].metaEs = [['ROL','Programación, Game Design, Level Design'],['ENGINE','Unity 3D'],['PLATAFORMA','Web y Windows'],['EVENTO','Feevale Game Jam / Sponsor: Hercosul'],['AÑO','2018'],['RESULTADO','2.º lugar de 19 proyectos']];
+    projects['xalingo'].desc_es = 'Juego desarrollado para Xalingo Brinquedos, uno de los mayores fabricantes de juguetes de Brasil. Una reinterpretación del clásico Flappy Bird en una ciudad futurista con la mascota Xalinguinho. El proyecto incluyó programación, animación de personajes y diseño de audio completo.';
+    projects['xalingo'].metaEs = [['ROL','Programación, Animación, Diseño de Audio'],['ENGINE','Unity 3D'],['PLATAFORMA','Web · Android · iOS'],['CLIENTE','Xalingo Brinquedos']];
+    projects['do-it'].desc_es = 'Instalación interactiva desarrollada para la apertura de una nueva unidad de la franquicia Do It English en Vale dos Sinos. Usando Kinect, los estudiantes controlaban el juego con movimientos corporales, haciendo el evento memorable y único.';
+    projects['do-it'].metaEs = [['ROL','Programación, Game Design, Level Design, Diseño de Audio'],['ENGINE','Unity 3D'],['TECNOLOGÍA','Kinect Windows SDK 2.0'],['PLATAFORMA','Windows'],['CLIENTE','Do It English Lessons']];
+    projects['dimensional'].desc_es = 'Primer juego 3D desarrollado en el 4.º semestre de la carrera de Juegos Digitales en Feevale. Con solo 4 meses de experiencia en Unity, el proyecto se inspiró profundamente en las mecánicas de terror de Resident Evil 2. Un hito en modelado 3D, iluminación y comportamiento de enemigos.';
+    projects['dimensional'].metaEs = [['ROL','Programación, Game Design, Level Design'],['ENGINE','Unity 3D'],['PLATAFORMA','Web y Windows'],['CONTEXTO','4.º semestre, Universidad Feevale']];
+    projects['7x1'].desc_es = 'Juego multijugador top-down con estilo cartoon y temática cómica. Dos equipos compiten para anotar puntos en una mecánica inspirada en CS:GO pero desde perspectiva top-down. Primer proyecto online multijugador usando Photon SDK.';
+    projects['7x1'].metaEs = [['ROL','Programación'],['ENGINE','Unity 3D'],['RED','Photon SDK'],['PLATAFORMA','Windows'],['CONTEXTO','5.º semestre, Universidad Feevale']];
+    projects['ambar'].desc_es = 'Proyecto de fin de carrera desarrollado en 4 meses en 2018. Una reinterpretación de MOBA en mapa reducido: los tripulantes robots deben recoger una llave de escape para sobrevivir a una estación espacial en colapso usando armas y estrategia de equipo. Multijugador online con uNet Unity.';
+    projects['ambar'].metaEs = [['ROL','Programación, Level Design, Game Design, Diseño de Audio'],['ENGINE','Unity 3D'],['RED','uNet Unity'],['PLATAFORMA','Windows'],['CONTEXTO','TCC, Universidad Feevale, 2018']];
+    projects['sesquito'].desc_es = 'App AR desarrollada para Sesc-RS. El usuario colorea un personaje en papel, captura los colores con la cámara y juega dos minijuegos: fútbol donde el personaje equilibra una pelota en la cabeza, y baloncesto para anotar puntos consecutivos.';
+    projects['sesquito'].metaEs = [['ROL','Programación, Diseño de Audio'],['ENGINE','Unity 3D'],['TECNOLOGÍA','Vuforia SDK + Kinect 2.0'],['PLATAFORMA','Android e iOS'],['CLIENTE','Sesc-RS']];
+    projects['rede-ideal'].desc_es = 'Herramienta AR para apoyar a los revendedores en presentaciones de productos. Permite visualizar góndolas y exhibidores en 360° usando disparadores de imagen, simulando escala real en el entorno del cliente. Permite decisiones de compra sin muestras físicas.';
+    projects['rede-ideal'].metaEs = [['ROL','Programación, Diseño de Audio'],['ENGINE','Unity 3D'],['TECNOLOGÍA','Vuforia SDK'],['PLATAFORMA','Android e iOS']];
+    projects['interactive-play'].desc_es = 'App AR que da vida a un rompecabezas físico vendido por el cliente. Cuando la cámara apunta a las piezas ensambladas, aparecen personajes animados que interactúan con el entorno, haciendo la experiencia del producto mucho más atractiva.';
+    projects['interactive-play'].metaEs = [['ROL','Programación, Diseño de Audio'],['ENGINE','Unity 3D'],['TECNOLOGÍA','Vuforia SDK'],['PLATAFORMA','Android e iOS']];
+    projects['renner'].desc_es = 'Dos filtros de realidad aumentada desarrollados para la campaña LOL de Renner en Instagram. Los filtros se convirtieron en los de mayor engagement en la historia de la tienda, alcanzando números impresionantes. ⚠ La plataforma Meta Spark fue discontinuada en enero de 2025. Es posible que los enlaces ya no estén accesibles.';
+    projects['renner'].metaEs = [['ROL','Programación'],['TECNOLOGÍA','Spark AR'],['PLATAFORMA','Instagram'],['CLIENTE','Renner'],['IMPRESIONES','3,9 millones'],['APERTURAS','5,1 millones'],['CAPTURAS','897 mil']];
+    projects['bridge'].desc_es = 'Experiencia VR desarrollada para Sagah (Grupo A), enfocada en la enseñanza inmersiva de ingeniería civil. Los estudiantes recorren todas las etapas constructivas de puentes en un entorno virtual detallado, reemplazando visitas técnicas riesgosas por una experiencia segura e inmersiva.';
+    projects['bridge'].metaEs = [['ROL','Programación, Level Design, Game Design, Diseño de Audio'],['ENGINE','Unity 3D'],['TECNOLOGÍA','Oculus SDK'],['PLATAFORMA','Oculus'],['CLIENTE','Sagah / Grupo A']];
+    projects['galaxy-xr'].desc_es = 'Trabajé como Software Engineer desarrollando aplicaciones nativas para el headset de realidad mixta Samsung Galaxy XR. Responsable de investigación, documentación técnica y desarrollo de funcionalidades implementadas nativamente en el dispositivo.';
+    projects['galaxy-xr'].metaEs = [['ROL','Software Engineer'],['ENGINE','Unity 3D'],['TECNOLOGÍA','OpenXR + C#'],['PLATAFORMA','Samsung Galaxy XR']];
+    projects['azul-conecta'].desc_es = 'Simulador VR para entrenamiento de pilotos de Azul Conecta. Cockpit a escala real del Cessna Grand Caravan con 68 procedimientos SOP cubiertos, hand tracking e informes de desempeño automatizados. El proyecto fue iniciado antes de la transición a Samsung Sidia.';
+    projects['azul-conecta'].metaEs = [['ROL','Programación'],['ENGINE','Unity 3D'],['TECNOLOGÍA','VR + Hand Tracking'],['AERONAVE','Cessna Grand Caravan'],['CLIENTE','Azul Conecta']];
+    projects['guide-crossing'].linksEs = [{ label: '▶ JUGAR AHORA', url: 'https://bit.ly/3zvq37o', style: 'btn-neon' }];
+    projects['xalingo'].linksEs = [{ label: '▶ JUGAR AHORA', url: 'https://clubinho.xalingo.com.br/jogos/xalinguinho-na-cidade-do-futuro', style: 'btn-neon' }];
+    projects['renner'].linksEs = [{ label: '✦ LOL SORPRESAS', url: 'https://bit.ly/2V92KRO', style: 'btn-outline' }, { label: '✦ ¿QUÉ LOL ERES?', url: 'https://bit.ly/36WtNm3', style: 'btn-outline' }];
+    projects['azul-conecta'].linksEs = [{ label: '📰 LEER ARTÍCULO', url: 'https://www.panrotas.com.br/aviacao/empresas/2022/03/azul-conecta-implementa-realidade-virtual-para-treinar-pilotos_188339.html', style: 'btn-outline' }];
 
     function setLang(lang) {
       window.currentLang = lang;
@@ -1742,18 +1824,17 @@
         const key = el.getAttribute('data-i18n-ph');
         if (t[key] !== undefined) el.placeholder = t[key];
       });
-      document.querySelectorAll('.gcard-btn').forEach(el => {
-        el.textContent = lang === 'en' ? '[ DETAILS ]' : '[ DETALHES ]';
+      ['pt','en','es'].forEach(l => {
+        const btn = document.getElementById('lang-' + l);
+        if (btn) btn.classList.toggle('active', l === lang);
       });
-      document.querySelectorAll('.gcard-status').forEach(el => {
-        const txt = el.textContent.trim();
-        if (statusTranslations[txt]) el.textContent = statusTranslations[txt];
-      });
-      document.getElementById('lang-btn').textContent = lang === 'pt' ? 'EN' : 'PT';
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en';
     }
 
     function toggleLang() {
-      setLang(window.currentLang === 'pt' ? 'en' : 'pt');
+      const order = ['pt','en','es'];
+      const next = order[(order.indexOf(window.currentLang) + 1) % order.length];
+      setLang(next);
     }
 
     // Formulário de contato
@@ -1762,14 +1843,14 @@
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const btn = form.querySelector('button[type=submit]');
-        btn.textContent = window.currentLang === 'en' ? '// SENDING...' : '// ENVIANDO...';
+        btn.textContent = window.currentLang === 'en' ? '// SENDING...' : window.currentLang === 'es' ? '// ENVIANDO...' : '// ENVIANDO...';
         btn.disabled = true;
         const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
         if (res.ok) {
           form.style.display = 'none';
           document.getElementById('form-success').style.display = 'block';
         } else {
-          btn.textContent = window.currentLang === 'en' ? '▶ TRY AGAIN' : '▶ TENTAR NOVAMENTE';
+          btn.textContent = window.currentLang === 'en' ? '▶ TRY AGAIN' : window.currentLang === 'es' ? '▶ INTENTAR DE NUEVO' : '▶ TENTAR NOVAMENTE';
           btn.disabled = false;
         }
       });
