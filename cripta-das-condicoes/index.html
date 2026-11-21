@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1218">
-<title>Cripta das Condições: Ecos da Torre | Correção de Portais</title>
+<title>A Cripta das Condições | Pixel Adventure 16-bit</title>
 <style>
 :root{--ink:#f5e9d2;--muted:#a9b7b6;--gold:#f3c77f;--aqua:#75d8c6;--red:#ee9581;--card:#14222a;--line:#41514b;--blue:#8baedb}
 *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:#0b1116;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
@@ -22,19 +22,37 @@ button{font:inherit;cursor:pointer}button:focus-visible{outline:2px solid var(--
 @media(hover:none),(pointer:coarse){.mobile-controls{display:block}}
 @media(max-width:940px){.layout{grid-template-columns:minmax(0,1fr)}.sidebar{display:grid;grid-template-columns:repeat(3,1fr)}.panel{min-height:100px}.stage{aspect-ratio:16 / 10}}
 @media(max-width:590px){.shell{padding:9px}.top{align-items:flex-start}.top-actions{gap:5px}.btn-small{font-size:10px;padding:6px}.identity p{display:none}.identity h1{font-size:16px}.crest{width:33px;height:33px;font-size:19px}.sidebar{grid-template-columns:1fr 1fr}.sidebar .panel:last-child{display:none}.stage{aspect-ratio:3 / 4}.hud{padding:7px}.location{max-width:49%}.stats{padding:6px;min-width:135px}.stats strong,.location strong{font-size:12px}.hearts{font-size:13px}.status-inline,.location small{font-size:9px}.prompt,.toast{font-size:10px}.cover-card{padding:13px}.cover-card h2{font-size:29px}.cover-card p{font-size:11px}.dialog{padding:12px}.answers{grid-template-columns:1fr}.sequence{grid-template-columns:1fr}.seq-picked{min-height:60px}.dialog .story{font-size:12px}.cover-meta{font-size:10px}.touchpad{transform:scale(.85);transform-origin:bottom left}.touch-actions{transform:scale(.85);transform-origin:bottom right}}
+
+/* 16-bit adventure skin. Pixel edges intentionally replace soft 3D simulation. */
+#game{image-rendering:pixelated;image-rendering:crisp-edges}
+.stage{border-radius:2px;border:4px solid #132b3a;box-shadow:0 0 0 2px #6f8991,0 0 0 6px #162c3a,0 18px 35px #000a}
+body{background:repeating-linear-gradient(0deg,#0a1220 0px,#0a1220 4px,#0d1c2a 4px,#0d1c2a 8px)}
+.identity h1,.panel h2,.stats strong,.location strong,.cover-card h2,.dialog h2{font-family:Consolas,'Lucida Console','Courier New',monospace;font-weight:900;letter-spacing:-.045em}
+.stats,.location,.panel,.cover-card,.dialog,.main-button,.secondary-button,.btn-small,.prompt,.toast,.dialog-overlay,.world-map .map-cell{border-radius:2px}
+.panel,.stats,.location{background:#102335ea;border:2px solid #456b78;box-shadow:inset 0 0 0 2px #071522,5px 5px 0 #060e19}
+.stats strong{color:#ffe09d}.panel h2{color:#f3d396}
+.main-button{background:#f3cb72;color:#1d2435;border:2px solid #fff0b5;box-shadow:inset -3px -3px #ad7c3f,4px 4px 0 #081624}
+.secondary-button,.btn-small{background:#24475c;border:2px solid #769aa0;box-shadow:inset -2px -2px #102a3d,3px 3px #071520;color:#e8efdc}
+.main-button:active,.secondary-button:active,.btn-small:active{transform:translate(2px,2px);box-shadow:none}
+.cover-card{background:linear-gradient(180deg,#1b3b4df6,#102133f9);border:3px solid #bdc7a2;box-shadow:inset 0 0 0 4px #193b47,8px 8px 0 #05131cb5}
+.dialog{background:#122535;border:3px solid #e8d29a;box-shadow:inset 0 0 0 4px #35566d,7px 7px 0 #020a13}
+.dialog-overlay{background:#040e1bdb}.cover-icons{text-shadow:3px 3px #13283c}
+#endScreen{animation:pixelReveal .6s steps(6,end)}@keyframes pixelReveal{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){#endScreen{animation:none}}
+
 </style>
 </head>
 <body>
 <div class="shell">
-<header class="top"><div class="identity"><div class="crest">⚔</div><div><h1>Cripta das Condições</h1><p>Ecos da Torre · RPG de Lógica</p></div></div><div class="top-actions"><button id="mapButton" class="btn-small" type="button">🗺 Mapa (M)</button><button id="helpButton" class="btn-small" type="button">? Ajuda</button><button id="soundButton" class="btn-small" type="button">♪ Som: off</button><button id="fullButton" class="btn-small" type="button">⛶ Tela cheia</button></div></header>
+<header class="top"><div class="identity"><div class="crest">⚔</div><div><h1>Cripta das Condições</h1><p>Pixel Adventure · Cripta + Bosque dos Laços</p></div></div><div class="top-actions"><button id="mapButton" class="btn-small" type="button">🗺 Mapa (M)</button><button id="helpButton" class="btn-small" type="button">? Ajuda</button><button id="soundButton" class="btn-small" type="button">♪ Som: off</button><button id="fullButton" class="btn-small" type="button">⛶ Tela cheia</button></div></header>
 <div class="layout"><main class="stage" id="stage"><canvas id="game" width="960" height="600" aria-label="Jogo medieval em visão superior"></canvas>
 <div class="hud" id="hud"><div class="hud-top"><div class="stats"><strong>⚔ Cavaleiro das Runas</strong><div class="hearts" id="hearts">♥ ♥ ♥ ♥ ♥ ♥</div><div class="status-inline" id="combatHud">Poções: 2 · Espada: 1</div></div><div class="location"><strong id="roomName">Átrio dos Ecos</strong><small id="roomSubtitle">O destino da torre depende de suas escolhas</small></div></div><div class="hud-bottom"><div class="toast" id="toast"></div><div class="prompt" id="prompt"></div></div></div>
 <div class="mobile-controls" id="mobileControls"><div class="touchpad"><button class="up" data-move="up">▲</button><button class="left" data-move="left">◀</button><button class="right" data-move="right">▶</button><button class="down" data-move="down">▼</button></div><div class="touch-actions"><button data-act="attack">ATACAR</button><button data-act="interact">USAR</button><button data-act="dash">ESQUIVA</button></div></div>
-<div class="screen" id="startScreen"><div class="cover-card"><div class="eyebrow">UMA AVENTURA DE 10 A 15 MINUTOS</div><div class="cover-icons">⚔ 🛡 ✦ 🧙</div><h2>A Cripta<br>das Condições</h2><p>Três alas estão sob o domínio de orcs, elfos sombrios e magos. Explore na ordem que quiser, decifre o código das runas e reúna três selos para enfrentar o Arquimago.</p><div class="cover-meta"><span>✦ 3 caminhos à escolha</span><span>✦ salas secretas</span><span>✦ decisões mudam o cenário</span></div><div class="button-row"><button class="main-button" id="playButton">INICIAR AVENTURA</button></div><label class="checkline"><input type="checkbox" id="studyMode"> Modo estudo, sem perda de vida nem guardiões extras por erros</label><p style="font-size:11px;color:#9ab3b0">WASD mover · J atacar · E interagir · Shift esquivar · Q poção · M mapa</p></div></div>
+<div class="screen" id="startScreen"><div class="cover-card"><div class="eyebrow">DOIS CAPÍTULOS · AVENTURA EDUCATIVA</div><div class="cover-icons">⚔ 🌲 ✦ 🧙</div><h2>A Cripta<br>das Condições</h2><p>Liberte os três selos da cripta e prossiga para o Bosque dos Laços. Na floresta, o guardião da primavera foi enfeitiçado e os portais só respondem aos algoritmos PARA.</p><div class="cover-meta"><span>✦ 3 caminhos à escolha</span><span>✦ salas secretas</span><span>✦ novo capítulo na floresta</span></div><div class="button-row"><button class="main-button" id="playButton">JOGAR DESDE A CRIPTA</button><button class="secondary-button" id="forestButton" type="button">🌲 INICIAR FLORESTA (AULA 04)</button></div><label class="checkline"><input type="checkbox" id="studyMode"> Modo estudo, sem perda de vida nem guardiões extras por erros</label><p style="font-size:11px;color:#9ab3b0">WASD mover · J atacar · E interagir · Shift esquivar · Q poção · M mapa</p></div></div>
 <div class="screen" id="endScreen" hidden><div class="cover-card"><div class="eyebrow" id="endEyebrow">AVENTURA CONCLUÍDA</div><div class="cover-icons" id="endIcons">🏰 ✦ 🏆</div><h2 id="endTitle">A torre foi libertada!</h2><p id="endText"></p><div class="button-row"><button class="main-button" id="restartButton">JOGAR NOVAMENTE</button><button class="secondary-button" id="endMapButton">Ver mapa</button></div></div></div>
 <div class="dialog-overlay" id="dialogOverlay" hidden><section class="dialog" id="dialogContent"></section></div>
 </main>
-<aside class="sidebar"><section class="panel"><h2>Os três selos</h2><div id="quests"><div class="quest"><i>◇</i> Forja das Cinzas</div><div class="quest"><i>◇</i> Biblioteca Sombria</div><div class="quest"><i>◇</i> Catacumba das Runas</div></div><div class="side-stat"><span>Progresso</span><b id="sealsCounter">0 / 3</b></div><div class="meter"><div id="meterFill"></div></div></section><section class="panel"><h2>Sua jornada</h2><div class="side-stat"><span>Tempo</span><b id="timeValue">00:00</b></div><div class="side-stat"><span>Enigmas</span><b id="puzzleValue">0 / 7</b></div><div class="side-stat"><span>Inimigos derrotados</span><b id="killsValue">0</b></div><div class="side-stat"><span>Descobertas</span><b id="secretValue">0 / 2</b></div><p>As alas podem ser exploradas em qualquer ordem.</p></section><section class="panel"><h2>Controles</h2><div class="keycaps"><div><b>WASD</b> mover</div><div><b>J</b> atacar</div><div><b>Shift</b> esquivar</div><div><b>E</b> interagir</div><div><b>Q</b> poção</div><div><b>M</b> mapa</div></div><p>Desvie dos ataques anunciados por círculos luminosos.</p></section></aside></div><p class="footnote">Jogo educacional original e independente. Conceitos: algoritmos, variáveis, expressões, operadores relacionais e estruturas condicionais. Funciona offline.</p>
+<aside class="sidebar"><section class="panel"><h2 id="missionTitle">Os três selos</h2><div id="quests"><div class="quest"><i>◇</i> Forja das Cinzas</div><div class="quest"><i>◇</i> Biblioteca Sombria</div><div class="quest"><i>◇</i> Catacumba das Runas</div></div><div class="side-stat"><span>Progresso</span><b id="sealsCounter">0 / 3</b></div><div class="meter"><div id="meterFill"></div></div></section><section class="panel"><h2>Sua jornada</h2><div class="side-stat"><span>Tempo</span><b id="timeValue">00:00</b></div><div class="side-stat"><span>Enigmas</span><b id="puzzleValue">0 / 7</b></div><div class="side-stat"><span>Inimigos derrotados</span><b id="killsValue">0</b></div><div class="side-stat"><span>Descobertas</span><b id="secretValue">0 / 2</b></div><p>As alas podem ser exploradas em qualquer ordem.</p></section><section class="panel"><h2>Controles</h2><div class="keycaps"><div><b>WASD</b> mover</div><div><b>J</b> atacar</div><div><b>Shift</b> esquivar</div><div><b>E</b> interagir</div><div><b>Q</b> poção</div><div><b>M</b> mapa</div></div><p>Desvie dos ataques anunciados por círculos luminosos.</p></section></aside></div><p class="footnote">Jogo educacional original e independente. Conceitos: algoritmos, variáveis, condições, repetição PARA, vetores e funções. Funciona offline.</p>
 </div>
 <script>
 'use strict';
@@ -47,9 +65,9 @@ const rnd=(a,b)=>a+Math.random()*(b-a);const clamp=(v,a,b)=>Math.min(b,Math.max(
 let state='start', roomId='hub',gameTime=0,elapsed=0,roomTime=0,last=0,frame=0;
 let keys={}, mobile={up:false,down:false,left:false,right:false};
 let player={x:480,y:338,hp:7,maxHp:7,potions:2,dmg:1,face:0,iframes:0,attackCd:0,attackFx:0,dashCd:0,dashTime:0,stun:0};
-let entities=[],fx=[],projectiles=[],roomFlags={},seals={forge:false,library:false,crypt:false},secrets={armory:false,garden:false},kills=0, solved=new Set(),punishedPuzzle=new Set(), hints=0,mistakes=0;
+let entities=[],fx=[],projectiles=[],roomFlags={},seals={forge:false,library:false,crypt:false},secrets={armory:false,garden:false,lake:false},kills=0, solved=new Set(),punishedPuzzle=new Set(), hints=0,mistakes=0;
 let toastText='',toastTimer=0,promptText='',nearest=null,soundOn=false,audio=null,hudFrame=0;
-let puzzle=null,wrongAttempts=0,seqSelected=[],modalFrom='',playMode=false;
+let puzzle=null,wrongAttempts=0,seqSelected=[],modalFrom='',playMode=false;let forestChapter=false,forestUnlocked=false;
 const ROOMS={
  hub:{name:'Átrio dos Ecos',sub:'Três trilhas. Uma escolha é sua.',tone:'#526d6c',floor:'#253331',doors:[['west','forge'],['east','library'],['south','crypt'],['north','tower']],objects:[{kind:'npc',x:484,y:277,label:'Guardião do Átrio'},{kind:'altar',x:482,y:424,label:'Pedra da Memória'}],obstacles:[{x:245,y:191,w:76,h:53},{x:650,y:191,w:76,h:53},{x:220,y:401,w:65,h:54},{x:660,y:403,w:65,h:54}],enemies:[]},
  forge:{name:'Forja das Cinzas',sub:'Domínio dos orcs. O ferro obedece à sequência.',tone:'#ca7550',floor:'#302d2d',doors:[['east','hub']],objects:[{kind:'rune',x:735,y:271,label:'Mecanismo da ponte',id:'forgeA'},{kind:'core',x:217,y:276,label:'Coração da Forja',id:'forgeB'},{kind:'secret',x:310,y:505,label:'Porta oculta da armaria',id:'armory'}],barrier:'vertical',obstacles:[{x:615,y:404,w:78,h:50},{x:248,y:405,w:81,h:56},{x:611,y:130,w:71,h:47}],enemies:[['orc',670,384],['orc',224,365],['orc',303,177]]},
@@ -57,9 +75,15 @@ const ROOMS={
  crypt:{name:'Catacumba das Runas',sub:'Aqui, o E e o OU decidem o caminho.',tone:'#9378b9',floor:'#2b2933',doors:[['north','hub']],objects:[{kind:'rune',x:371,y:220,label:'Altar dos Operadores',id:'cryptA'},{kind:'core',x:698,y:436,label:'Relicário da Verdade',id:'cryptB'}],barrier:'horizontal',obstacles:[{x:160,y:201,w:108,h:43},{x:708,y:169,w:96,h:51},{x:220,y:420,w:99,h:48}],enemies:[['mage',610,222],['orc',662,435],['elf',410,445]]},
  armory:{name:'Armaria Esquecida',sub:'O desvio valeu a pena.',tone:'#b79f73',floor:'#303532',doors:[['north','forge']],objects:[{kind:'treasure',x:493,y:290,label:'Espada do Luar',id:'armoryTreasure'}],obstacles:[{x:282,y:248,w:78,h:80},{x:660,y:263,w:74,h:72}],enemies:[['orc',615,365]]},
  garden:{name:'Jardim dos Sussurros',sub:'Uma câmara escondida pelos elfos.',tone:'#65a58c',floor:'#273a36',doors:[['south','library']],objects:[{kind:'treasure',x:480,y:275,label:'Fonte da Cura',id:'gardenTreasure'}],obstacles:[{x:230,y:190,w:74,h:63},{x:663,y:361,w:75,h:61}],enemies:[['elf',410,338]]},
- tower:{name:'Trono do Arquimago',sub:'O último algoritmo sela o destino da torre.',tone:'#b58dbf',floor:'#2d2532',doors:[['south','hub']],objects:[{kind:'rune',x:476,y:325,label:'Círculo de Ruptura',id:'towerA'}],obstacles:[{x:223,y:232,w:70,h:70},{x:675,y:232,w:70,h:70}],enemies:[]}
+ tower:{name:'Trono do Arquimago',sub:'O último algoritmo sela o destino da torre.',tone:'#b58dbf',floor:'#2d2532',doors:[['south','hub'],['north','forestHub']],objects:[{kind:'rune',x:476,y:325,label:'Círculo de Ruptura',id:'towerA'}],obstacles:[{x:223,y:232,w:70,h:70},{x:675,y:232,w:70,h:70}],enemies:[]},
+ forestHub:{name:'Clareira dos Caminhos',sub:'O Bosque dos Laços desperta. Escolha uma trilha.',tone:'#65ae86',floor:'#253b30',doors:[['west','forestGrove'],['east','forestClearing'],['north','forestRuins'],['south','tower']],objects:[{kind:'npc',x:479,y:246,label:'Espírito da Floresta'},{kind:'altar',x:482,y:415,label:'Pedra dos Ciclos'}],obstacles:[{x:215,y:170,w:70,h:55},{x:689,y:177,w:72,h:58},{x:210,y:409,w:66,h:58},{x:693,y:404,w:67,h:55}],enemies:[]},
+ forestGrove:{name:'Trilha dos Contadores',sub:'Os galhos se abrem quando a repetição faz sentido.',tone:'#559c6e',floor:'#263b2c',doors:[['east','forestHub']],objects:[{kind:'rune',x:739,y:264,label:'Totem das Cinco Passadas',id:'forestA'},{kind:'core',x:205,y:274,label:'Ninho dos Pares',id:'forestB'},{kind:'secret',x:330,y:483,label:'Passagem da Fonte Oculta',id:'forestLake'}],barrier:'vertical',obstacles:[{x:263,y:169,w:74,h:57},{x:651,y:389,w:73,h:57},{x:231,y:411,w:65,h:52}],enemies:[['orc',673,361],['elf',291,312]]},
+ forestClearing:{name:'Clareira das Sementes',sub:'As sementes antigas guardam um vetor de valores.',tone:'#7aae79',floor:'#2b4031',doors:[['west','forestHub']],objects:[{kind:'rune',x:730,y:278,label:'Altar das Sementes',id:'forestC'}],obstacles:[{x:337,y:174,w:65,h:57},{x:559,y:380,w:68,h:54},{x:160,y:403,w:67,h:50}],enemies:[['elf',585,270],['mage',419,411]]},
+ forestLake:{name:'Lago das Folhas',sub:'Um repouso escondido na copa das árvores.',tone:'#51a8a0',floor:'#25403a',doors:[['north','forestGrove']],objects:[{kind:'treasure',x:482,y:272,label:'Orvalho Lunar',id:'lakeTreasure'}],obstacles:[{x:240,y:220,w:79,h:71},{x:654,y:365,w:81,h:63}],enemies:[['elf',585,373]]},
+ forestRuins:{name:'Santuário dos Ciclos',sub:'Um último algoritmo quebra a maldição do bosque.',tone:'#9cbb87',floor:'#333a2c',doors:[['south','forestHub']],objects:[{kind:'rune',x:481,y:270,label:'Runa dos Laços Aninhados',id:'forestD'}],obstacles:[{x:208,y:209,w:70,h:78},{x:692,y:206,w:67,h:78},{x:243,y:409,w:63,h:54},{x:680,y:400,w:65,h:55}],enemies:[['mage',650,383]]}
+
 };
-const EXITS={hub:{west:{room:'forge',x:853,y:300},east:{room:'library',x:105,y:300},south:{room:'crypt',x:480,y:132},north:{room:'tower',x:480,y:485}},forge:{east:{room:'hub',x:115,y:300}},library:{west:{room:'hub',x:844,y:300}},crypt:{north:{room:'hub',x:480,y:470}},armory:{north:{room:'forge',x:362,y:484}},garden:{south:{room:'library',x:680,y:145}},tower:{south:{room:'hub',x:480,y:145}}};
+const EXITS={hub:{west:{room:'forge',x:853,y:300},east:{room:'library',x:105,y:300},south:{room:'crypt',x:480,y:132},north:{room:'tower',x:480,y:485}},forge:{east:{room:'hub',x:115,y:300}},library:{west:{room:'hub',x:844,y:300}},crypt:{north:{room:'hub',x:480,y:470}},armory:{north:{room:'forge',x:362,y:484}},garden:{south:{room:'library',x:680,y:145}},tower:{south:{room:'hub',x:480,y:145},north:{room:'forestHub',x:480,y:470}},forestHub:{west:{room:'forestGrove',x:844,y:300},east:{room:'forestClearing',x:113,y:300},north:{room:'forestRuins',x:480,y:465},south:{room:'tower',x:480,y:145}},forestGrove:{east:{room:'forestHub',x:113,y:300}},forestClearing:{west:{room:'forestHub',x:843,y:300}},forestLake:{north:{room:'forestGrove',x:344,y:455}},forestRuins:{south:{room:'forestHub',x:480,y:143}}};
 const PUZZLES={
  forgeA:{room:'forge',type:'sequence',title:'Reative a ponte de ferro',lead:'As engrenagens estão travadas. Clique nos blocos em uma ordem lógica para acionar o mecanismo. As duas leituras podem ser feitas em qualquer ordem.',code:'Objetivo: ler dois materiais, calcular a liga e exibir o resultado.',blocks:['escrever liga','liga ← ferro + carvao','ler carvao','ler ferro'],correct:['ler ferro','ler carvao','liga ← ferro + carvao','escrever liga'],hint:'Primeiro as entradas, depois o cálculo e por fim a saída.',success:'A sequência está correta. A ponte de ferro foi ativada!'},
  forgeB:{room:'forge',type:'choice',title:'Desperte o Coração da Forja',lead:'O orc ferreiro lançou um encantamento sobre a energia da máquina. Descubra o valor final.',code:'energia ← 3\nenergia ← energia + 5\nenergia ← energia * 2\nescrever energia',options:['11','13','16','20'],correct:2,hint:'O valor de energia muda a cada linha. Faça a soma antes da multiplicação.',success:'O coração da Forja despertou. Selo das Cinzas conquistado!'},
@@ -67,7 +91,12 @@ const PUZZLES={
  libraryB:{room:'library',type:'choice',title:'O livro dos dois requisitos',lead:'O livro somente revela o selo para um herói com vitalidade suficiente E uma chave verdadeira.',code:'vida ← 65\ntemChave ← verdadeiro\n\nse vida >= 50 E temChave então\n  escrever "Acesso concedido"\nsenão\n  escrever "Acesso negado"\nfimse',options:['Acesso negado','Acesso concedido','Nenhuma saída','Erro de variável'],correct:1,hint:'Faça as duas verificações separadamente e depois aplique o E.',success:'O grimório se abriu. Selo da Biblioteca conquistado!'},
  cryptA:{room:'crypt',type:'choice',title:'O selo das duas tochas',lead:'Uma passagem abre se pelo menos uma das duas tochas estiver acesa. Qual operador deve completar a regra?',code:'tochaA ← falso\ntochaB ← verdadeiro\n\nse tochaA ___ tochaB então\n  abrirPassagem\nfimse',options:['E','OU','NÃO','=='],correct:1,hint:'A passagem pode abrir mesmo com apenas uma tocha acesa.',success:'O operador OU ativou a passagem entre as tumbas!'},
  cryptB:{room:'crypt',type:'choice',title:'A verdade do relicário',lead:'O mago selou o relicário com uma condição composta. Preveja a saída.',code:'temTocha ← falso\ntemMagia ← verdadeiro\n\nse NÃO temTocha E temMagia então\n  escrever "Luz arcana"\nsenão\n  escrever "Escuridão"\nfimse',options:['Escuridão','Luz arcana','verdadeiro','falso'],correct:1,hint:'NÃO falso é verdadeiro. Depois combine os dois valores com E.',success:'A luz arcana revelou o Selo da Catacumba!'},
- towerA:{room:'tower',type:'choice',title:'Quebre o escudo do Arquimago',lead:'A magia da torre só se desfaz quando as duas exigências são atendidas ao mesmo tempo. A regra deve funcionar também se faltar um selo ou poder.',code:'selos ← 3\npoder ← 8\n\nse selos == 3 ___ poder >= 7 então\n  desativarEscudo\nsenão\n  manterEscudo\nfimse',options:['OU','E','NÃO','<'],correct:1,hint:'O feitiço precisa das duas exigências ao mesmo tempo.',success:'O escudo do Arquimago se rompeu. Prepare a espada!'}
+ towerA:{room:'tower',type:'choice',title:'Quebre o escudo do Arquimago',lead:'A magia da torre só se desfaz quando as duas exigências são atendidas ao mesmo tempo. A regra deve funcionar também se faltar um selo ou poder.',code:'selos ← 3\npoder ← 8\n\nse selos == 3 ___ poder >= 7 então\n  desativarEscudo\nsenão\n  manterEscudo\nfimse',options:['OU','E','NÃO','<'],correct:1,hint:'O feitiço precisa das duas exigências ao mesmo tempo.',success:'O escudo do Arquimago se rompeu. Prepare a espada!'},
+ forestA:{room:'forestGrove',type:'sequence',strict:true,title:'Construa o laço das cinco passadas',lead:'A ponte de raízes precisa de um programa completo. Organize as cinco instruções na ordem correta para somar os números de 1 a 5.',code:'Objetivo: começar com 0, repetir cinco vezes, acumular a soma e mostrar o resultado.',blocks:['escrever total','total ← total + i','fimpara','para i de 1 até 5 faça','total ← 0'],correct:['total ← 0','para i de 1 até 5 faça','total ← total + i','fimpara','escrever total'],hint:'Primeiro inicialize total. Depois abra o PARA, atualize dentro dele, feche o laço e mostre o resultado.',success:'O algoritmo foi montado. As raízes recuaram e revelaram o caminho!'},
+ forestB:{room:'forestGrove',type:'choice',title:'Colete apenas as runas pares',lead:'O ninho está cercado por pedras numeradas de 1 a 8. Quantas pedras atendem à condição?',code:'pares ← 0\npara i de 1 até 8 faça\n  se i % 2 == 0 então\n    pares ← pares + 1\n  fimse\nfimpara\nescrever pares',options:['3','4','5','8'],correct:1,hint:'Identifique 2, 4, 6 e 8. O contador muda apenas quando a condição é verdadeira.',success:'O ninho revelou a primeira essência do bosque!'},
+ forestC:{room:'forestClearing',type:'choice',title:'As sementes encantadas',lead:'A druida registrou quatro valores num vetor. O guardião percorre cada posição usando PARA. Qual é a soma?',code:'sementes ← [3, 4, 2, 5]\nsoma ← 0\npara i de 1 até 4 faça\n  soma ← soma + sementes[i]\nfimpara\nescrever soma',options:['10','12','14','20'],correct:2,hint:'As posições vão de 1 a 4 no pseudocódigo desta aula. Some os quatro valores.',success:'A Clareira devolveu a segunda essência do bosque!'},
+ forestD:{room:'forestRuins',type:'choice',title:'O padrão das árvores ancestrais',lead:'A barreira tem três fileiras com duas runas em cada. Quantas runas serão ativadas pelos dois laços?',code:'ativadas ← 0\npara linha de 1 até 3 faça\n  para coluna de 1 até 2 faça\n    ativadas ← ativadas + 1\n  fimpara\nfimpara\nescrever ativadas',options:['3','5','6','9'],correct:2,hint:'O laço de dentro repete 2 vezes em cada uma das 3 voltas externas.',success:'O selo rompeu a maldição. Derrote o Guardião da Primavera!'}
+
 };
 const transitions={west:{x:92,y:300,w:65,h:104},east:{x:868,y:300,w:65,h:104},north:{x:480,y:91,w:112,h:65},south:{x:480,y:513,w:112,h:65}};
 function room(){return ROOMS[roomId]};
@@ -75,16 +104,16 @@ function flag(id){return !!roomFlags[id]};
 function setFlag(id){roomFlags[id]=true}
 function totalSeals(){return Object.values(seals).filter(Boolean).length}
 function mkEnemy(type,x,y){let stats={orc:[3,54,1.75],elf:[2,83,1.25],mage:[2,54,2.1],boss:[10,47,1.8]}[type];return {type,x,y,homeX:x,homeY:y,hp:stats[0],maxHp:stats[0],speed:stats[1],range:stats[2],phase:'idle',timer:rnd(.1,1),flash:0,alive:true,step:Math.random()*6,stun:0}}
-function init(){roomFlags={};seals={forge:false,library:false,crypt:false};secrets={armory:false,garden:false};solved=new Set();punishedPuzzle=new Set();hints=0;mistakes=0;kills=0;elapsed=0;gameTime=0;roomTime=0;fx=[];projectiles=[];player={x:480,y:338,hp:7,maxHp:7,potions:2,dmg:1,face:-Math.PI/2,iframes:0,attackCd:0,attackFx:0,dashCd:0,dashTime:0,stun:0};
-entities={};for(const [id,r] of Object.entries(ROOMS)){entities[id]=(r.enemies||[]).map(e=>mkEnemy(...e))}roomId='hub';state='playing';$('startScreen').hidden=true;$('endScreen').hidden=true;$('dialogOverlay').hidden=true;hidePanels();toast('O Guardião aguarda. Explore as três alas na ordem que preferir.',4.7);updateHud();}
+function init(){roomFlags={};seals={forge:false,library:false,crypt:false};secrets={armory:false,garden:false,lake:false};forestChapter=false;forestUnlocked=false;solved=new Set();punishedPuzzle=new Set();hints=0;mistakes=0;kills=0;elapsed=0;gameTime=0;roomTime=0;fx=[];projectiles=[];player={x:480,y:338,hp:7,maxHp:7,potions:2,dmg:1,face:-Math.PI/2,iframes:0,attackCd:0,attackFx:0,dashCd:0,dashTime:0,stun:0};
+entities={};for(const [id,r] of Object.entries(ROOMS)){entities[id]=(r.enemies||[]).map(e=>mkEnemy(...e))}roomId='hub';state='playing';pixelDeath=null;pixBackgrounds.clear();$('startScreen').hidden=true;$('endScreen').hidden=true;$('dialogOverlay').hidden=true;hidePanels();toast('O Guardião aguarda. Explore as três alas na ordem que preferir.',4.7);updateHud();}
 function toast(s,t=3){toastText=s;toastTimer=t;$('toast').textContent=s}
 function particles(x,y,color='#edc17b',n=12){for(let i=0;i<n;i++)fx.push({x,y,vx:rnd(-120,120),vy:rnd(-155,80),life:rnd(.32,.75),max:.75,color,size:rnd(2,5)})}
 function sfx(name){if(!soundOn)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);const now=audio.currentTime;const f={sword:260,hit:135,unlock:490,solve:680,hurt:98,dash:205,fail:116}[name]||300;o.type=name==='solve'?'sine':'triangle';o.frequency.setValueAtTime(f,now);o.frequency.exponentialRampToValueAtTime(name==='solve'?f*1.9:Math.max(50,f*.62),now+.18);g.gain.setValueAtTime(.045,now);g.gain.exponentialRampToValueAtTime(.0001,now+.23);o.start(now);o.stop(now+.24)}catch{}}
-function updateHud(){const n=totalSeals();$('hearts').textContent='♥ '.repeat(player.hp).trim()+' ♡ '.repeat(Math.max(0,player.maxHp-player.hp)).trim();$('combatHud').textContent=`Poções: ${player.potions} · Espada: ${player.dmg}${playMode?' · Modo estudo':''}`;$('roomName').textContent=room().name;$('roomSubtitle').textContent=room().sub;$('sealsCounter').textContent=`${n} / 3`;$('meterFill').style.width=`${n/3*100}%`;$('puzzleValue').textContent=`${solved.size} / 7`;$('killsValue').textContent=kills;$('secretValue').textContent=Object.values(secrets).filter(Boolean).length+' / 2';const m=Math.floor(elapsed/60),s=Math.floor(elapsed%60);$('timeValue').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-$('quests').innerHTML=[['forge','Forja das Cinzas'],['library','Biblioteca Sombria'],['crypt','Catacumba das Runas']].map(([k,label])=>`<div class="quest ${seals[k]?'done':''}"><i>${seals[k]?'◆':'◇'}</i>${label}</div>`).join('');}
+function updateHud(){const forestDone=['forestB','forestC','forestD'].filter(id=>solved.has(id)).length;const n=forestChapter?forestDone:totalSeals();$('hearts').textContent='♥ '.repeat(player.hp).trim()+' ♡ '.repeat(Math.max(0,player.maxHp-player.hp)).trim();$('combatHud').textContent=`Poções: ${player.potions} · Espada: ${player.dmg}${playMode?' · Modo estudo':''}`;$('roomName').textContent=room().name;$('roomSubtitle').textContent=room().sub;$('sealsCounter').textContent=`${n} / 3`;$('meterFill').style.width=`${n/3*100}%`;$('puzzleValue').textContent=`${solved.size} / 11`;$('killsValue').textContent=kills;$('secretValue').textContent=Object.values(secrets).filter(Boolean).length+' / 3';const m=Math.floor(elapsed/60),s=Math.floor(elapsed%60);$('timeValue').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+$('missionTitle').textContent=forestChapter?'Essências da floresta':'Os três selos';$('quests').innerHTML=forestChapter?[['forestB','Ninho dos Pares'],['forestC','Clareira das Sementes'],['forestD','Santuário dos Ciclos']].map(([k,label])=>`<div class="quest ${solved.has(k)?'done':''}"><i>${solved.has(k)?'◆':'◇'}</i>${label}</div>`).join(''):[['forge','Forja das Cinzas'],['library','Biblioteca Sombria'],['crypt','Catacumba das Runas']].map(([k,label])=>`<div class="quest ${seals[k]?'done':''}"><i>${seals[k]?'◆':'◇'}</i>${label}</div>`).join('');}
 function hidePanels(){$('dialogOverlay').hidden=true;puzzle=null;seqSelected=[];wrongAttempts=0;}
 function enter(newRoom,x,y){
-  if(!ROOMS[newRoom])return;
+  if(!ROOMS[newRoom])return; if(newRoom.startsWith('forest')){forestChapter=true;forestUnlocked=true;}
   roomId=newRoom;
   const spawn=safeSpawn(x,y);
   player.x=spawn.x;
@@ -113,57 +142,58 @@ function bindClose(){const b=$('dialogClose');if(b)b.onclick=closeDialog}
 function showTalk(title,text,choices=null){showDialog(`<div class="dialog-header"><span class="dialog-kicker">HISTÓRIA DA TORRE</span>${closeButton()}</div><h2>${title}</h2><p class="story">${text}</p><div class="button-row"><button id="storyOk" class="main-button">Continuar aventura</button></div>`);bindClose();$('storyOk').onclick=closeDialog;}
 function showPuzzle(id){if(solved.has(id)){toast('Este enigma já foi resolvido. O caminho está liberado.',2);return}
 puzzle=id;wrongAttempts=0;seqSelected=[];buildPuzzle();}
-function buildPuzzle(){if(!puzzle)return;const p=PUZZLES[puzzle];const intro=`<div class="dialog-header"><span class="dialog-kicker">✦ ENIGMA DE LÓGICA · AULAS 01 E 02</span>${closeButton()}</div><h2>${p.title}</h2><p class="story">${p.lead}</p><div class="code-frame"><span class="code-label">PSEUDOCÓDIGO</span><pre>${p.code}</pre></div>`;
+function buildPuzzle(){if(!puzzle)return;const p=PUZZLES[puzzle];const intro=`<div class="dialog-header"><span class="dialog-kicker">✦ ENIGMA DE LÓGICA · ${p.room.startsWith('forest')?'AULAS 03 E 04':'AULAS 01 E 02'}</span>${closeButton()}</div><h2>${p.title}</h2><p class="story">${p.lead}</p><div class="code-frame"><span class="code-label">PSEUDOCÓDIGO</span><pre>${p.code}</pre></div>`;
 let body='';if(p.type==='choice'){body=`<div class="answers">${p.options.map((o,i)=>`<button class="answer" data-choice="${i}"><span style="color:#e8c286">${String.fromCharCode(65+i)}.</span> ${o}</button>`).join('')}</div>`}else{body=`<div class="sequence"><div><h3>Blocos disponíveis</h3><div id="blockSource" class="seq-list"></div></div><div><h3>Ordem escolhida</h3><div id="blockChosen" class="seq-list seq-picked"></div></div></div><p class="seq-help">Clique nos blocos numa sequência lógica. Para desfazer, clique na coluna direita.</p>`}
 body+=`<div class="puz-footer"><div class="feedback" id="puzzleFeedback" aria-live="polite">${wrongAttempts?'Tente novamente.':''}</div><div class="button-row" style="margin:0">${p.type==='sequence'?'<button class="secondary-button" id="submitSequence">Ativar mecanismo</button>':''}<button class="secondary-button" id="hintButton">Dica</button></div></div>`;
 showDialog(intro+body);bindClose();if(p.type==='choice')document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>chooseAnswer(Number(b.dataset.choice)));else{renderSequence();$('submitSequence').onclick=submitSequence}
 $('hintButton').onclick=()=>{hints++;$('puzzleFeedback').className='feedback';$('puzzleFeedback').textContent='Dica: '+p.hint};}
 function renderSequence(){const p=PUZZLES[puzzle];$('blockSource').innerHTML=p.blocks.filter(s=>!seqSelected.includes(s)).map(s=>`<button class="code-tile" data-block="${p.blocks.indexOf(s)}">+ ${s}</button>`).join('')||'<span class="seq-help">Todos os blocos foram escolhidos.</span>';$('blockChosen').innerHTML=seqSelected.map((s,i)=>`<button class="code-tile" data-selected="${i}">${i+1}. ${s} ✕</button>`).join('')||'<span class="seq-help">Sua ordem aparecerá aqui.</span>';
 document.querySelectorAll('[data-block]').forEach(b=>b.onclick=()=>{seqSelected.push(p.blocks[Number(b.dataset.block)]);renderSequence();});document.querySelectorAll('[data-selected]').forEach(b=>b.onclick=()=>{seqSelected.splice(Number(b.dataset.selected),1);renderSequence();})}
-function submitSequence(){const p=PUZZLES[puzzle];if(seqSelected.length!==p.correct.length){$('puzzleFeedback').textContent='Organize os quatro blocos antes de ativar.';return}const ok=seqSelected[2]===p.correct[2]&&seqSelected[3]===p.correct[3]&&new Set(seqSelected.slice(0,2)).has(p.correct[0])&&new Set(seqSelected.slice(0,2)).has(p.correct[1]);if(ok)completePuzzle();else wrong('A máquina fez um ruído estranho. A ordem está incorreta.');}
+function submitSequence(){const p=PUZZLES[puzzle];if(seqSelected.length!==p.correct.length){$('puzzleFeedback').textContent='Organize todos os blocos antes de ativar.';return}const ok=p.strict?seqSelected.every((v,i)=>v===p.correct[i]):seqSelected[2]===p.correct[2]&&seqSelected[3]===p.correct[3]&&new Set(seqSelected.slice(0,2)).has(p.correct[0])&&new Set(seqSelected.slice(0,2)).has(p.correct[1]);if(ok)completePuzzle();else wrong('A máquina fez um ruído estranho. A ordem está incorreta.');}
 function chooseAnswer(index){if(!puzzle)return;const p=PUZZLES[puzzle];if(index===p.correct)completePuzzle();else{const btn=document.querySelector(`[data-choice="${index}"]`);if(btn){btn.classList.add('wrong');setTimeout(()=>{if(btn.isConnected)btn.classList.remove('wrong')},500)}wrong('Esta condição não ativa a runa. Releia o pseudocódigo.')}}
 function wrong(text){mistakes++;wrongAttempts++;sfx('fail');let penalty='';if(!playMode&&puzzle&&!punishedPuzzle.has(puzzle)){
   punishedPuzzle.add(puzzle);const offsets=[[105,0],[-105,0],[0,105],[0,-105]];let pos=null;
   for(const [dx,dy] of offsets){const x=player.x+dx,y=player.y+dy;if(!blocked(x,y)){pos={x,y};break}}
-  if(pos){const type=roomId==='library'?'elf':roomId==='tower'?'mage':'orc';entities[roomId].push(mkEnemy(type,pos.x,pos.y));penalty=' O erro despertou um guardião. Ele estará esperando quando você voltar ao cenário.';}
+  if(pos){const type=roomId==='library'||roomId.startsWith('forest')?'elf':roomId==='tower'?'mage':'orc';entities[roomId].push(mkEnemy(type,pos.x,pos.y));penalty=' O erro despertou um guardião. Ele estará esperando quando você voltar ao cenário.';}
 }
 const e=$('puzzleFeedback');if(e){e.textContent=text+penalty+(wrongAttempts>=2?' Use a dica para lembrar a regra.':'');e.className='feedback';}}
 function completePuzzle(){const id=puzzle;if(!id)return;const p=PUZZLES[id];solved.add(id);setFlag(id);sfx('solve');particles(player.x,player.y,'#f2d18a',24);
 if(id.endsWith('B')&&['forgeB','libraryB','cryptB'].includes(id)){const sId=id.slice(0,-1);seals[sId]=true;}
-if(id==='towerA'){if(!entities.tower.some(e=>e.type==='boss'&&e.alive)){entities.tower.push(mkEnemy('boss',482,188));}}
-updateHud();showDialog(`<div class="dialog-header"><span class="dialog-kicker">✦ RUNA DECIFRADA</span>${closeButton()}</div><h2 style="color:#9ce6bc">Algoritmo correto!</h2><p class="story">${p.success}</p><p class="story">${id.endsWith('B')?`Você possui <b>${totalSeals()} de 3</b> selos. ${totalSeals()===3?'A Torre do Norte está aberta!':'Explore as outras alas para encontrar os selos restantes.'}`:id==='towerA'?'Derrote o Arquimago com a espada. Esquive quando o círculo vermelho surgir.':'O cenário mudou. Explore o caminho recém-aberto.'}</p><div class="button-row"><button class="main-button" id="puzzleOk">Continuar</button></div>`);bindClose();$('puzzleOk').onclick=()=>{closeDialog();toast(p.success,3.7)}}
-function secretEvent(id){if(id==='armory'){if(!flag('forgeA')){toast('Há uma passagem oculta. Primeiro reative a ponte da Forja.');return}enter('armory',480,130);return}if(id==='garden'){if(!flag('libraryA')){toast('A estante secreta continua bloqueada. Resolva a comparação.');return}enter('garden',480,476);return}}
-function takeTreasure(id){if(id==='armoryTreasure'&&!secrets.armory){secrets.armory=true;player.dmg=2;particles(player.x,player.y,'#ead799',24);showTalk('Espada do Luar','Você encontrou uma lâmina encantada! Seus golpes agora causam 2 pontos de dano. Nenhum enigma foi necessário para descobrir a sala, apenas curiosidade.');sfx('solve')}else if(id==='gardenTreasure'&&!secrets.garden){secrets.garden=true;player.potions+=2;player.hp=player.maxHp;particles(player.x,player.y,'#9be9c8',28);showTalk('Fonte da Cura','As águas restauraram sua vida e concederam duas poções extras. Às vezes, explorar fora do caminho óbvio recompensa a estratégia.');sfx('solve')}else toast('Esse tesouro já foi recolhido.');updateHud()}
-function npcEvent(){showTalk('O Guardião do Átrio',totalSeals()===0?'Três selos estão perdidos. A Forja fica a oeste, a Biblioteca a leste e a Catacumba ao sul. Não existe ordem obrigatória. A Torre ao norte só se abrirá com os três selos.':totalSeals()<3?`Você já possui ${totalSeals()} selo(s). Continue explorando as outras alas. Observe também as paredes com marcas, porque escondem câmaras úteis.`:'Os três selos estão reunidos. Siga ao norte para enfrentar o Arquimago. Seu escudo só será desativado se você compreender a lógica das runas.')}
-function memoryEvent(){showTalk('Pedra da Memória','Lembre-se: um algoritmo executa instruções na ordem. Variáveis mudam de valor. Comparações produzem verdadeiro ou falso. As estruturas SE e SENÃO escolhem caminhos. E exige duas condições verdadeiras; OU aceita pelo menos uma; NÃO inverte o resultado. Essas regras controlam esta dungeon.')}
+if(id==='towerA'){if(!entities.tower.some(e=>e.type==='boss'&&e.alive)){entities.tower.push(mkEnemy('boss',482,188));}} if(id==='forestD'){if(!entities.forestRuins.some(e=>e.type==='boss'&&e.alive)){entities.forestRuins.push(mkEnemy('boss',483,175));}}
+updateHud();showDialog(`<div class="dialog-header"><span class="dialog-kicker">✦ RUNA DECIFRADA</span>${closeButton()}</div><h2 style="color:#9ce6bc">Algoritmo correto!</h2><p class="story">${p.success}</p><p class="story">${id.endsWith('B')?`Você possui <b>${totalSeals()} de 3</b> selos. ${totalSeals()===3?'A Torre do Norte está aberta!':'Explore as outras alas para encontrar os selos restantes.'}`:id==='towerA'?'Derrote o Arquimago com a espada. Esquive quando o círculo vermelho surgir.':id==='forestD'?'O Guardião da Primavera despertou. Derrote-o para salvar a floresta.':'O cenário mudou. Explore o caminho recém-aberto.'}</p><div class="button-row"><button class="main-button" id="puzzleOk">Continuar</button></div>`);bindClose();$('puzzleOk').onclick=()=>{closeDialog();toast(p.success,3.7)}}
+function secretEvent(id){if(id==='armory'){if(!flag('forgeA')){toast('Há uma passagem oculta. Primeiro reative a ponte da Forja.');return}enter('armory',480,130);return}if(id==='forestLake'){if(!flag('forestA')){toast('Primeiro liberte as raízes da Trilha.');return}enter('forestLake',480,460);return}if(id==='garden'){if(!flag('libraryA')){toast('A estante secreta continua bloqueada. Resolva a comparação.');return}enter('garden',480,476);return}}
+function takeTreasure(id){if(id==='armoryTreasure'&&!secrets.armory){secrets.armory=true;player.dmg=2;particles(player.x,player.y,'#ead799',24);showTalk('Espada do Luar','Você encontrou uma lâmina encantada! Seus golpes agora causam 2 pontos de dano. Nenhum enigma foi necessário para descobrir a sala, apenas curiosidade.');sfx('solve')}else if(id==='gardenTreasure'&&!secrets.garden){secrets.garden=true;player.potions+=2;player.hp=player.maxHp;particles(player.x,player.y,'#9be9c8',28);showTalk('Fonte da Cura','As águas restauraram sua vida e concederam duas poções extras. Às vezes, explorar fora do caminho óbvio recompensa a estratégia.');sfx('solve')}else if(id==='lakeTreasure'&&!secrets.lake){secrets.lake=true;player.potions+=2;player.hp=player.maxHp;particles(player.x,player.y,'#7cdec2',24);showTalk('Orvalho Lunar','O lago restaura sua vida e oferece duas poções. O segredo não é obrigatório, mas recompensa quem explora.');sfx('solve')}else toast('Esse tesouro já foi recolhido.');updateHud()}
+function npcEvent(){if(forestChapter){showTalk('Espírito da Floresta','O Bosque dos Laços perdeu suas essências. Explore as duas trilhas laterais e decifre os algoritmos PARA. Só depois siga ao Santuário ao norte. Cada repetição precisa de início, limite e incremento.');return}showTalk('O Guardião do Átrio',totalSeals()===0?'Três selos estão perdidos. A Forja fica a oeste, a Biblioteca a leste e a Catacumba ao sul. Não existe ordem obrigatória. A Torre ao norte só se abrirá com os três selos.':totalSeals()<3?`Você já possui ${totalSeals()} selo(s). Continue explorando as outras alas. Observe também as paredes com marcas, porque escondem câmaras úteis.`:'Os três selos estão reunidos. Siga ao norte para enfrentar o Arquimago. Seu escudo só será desativado se você compreender a lógica das runas.')}
+function memoryEvent(){if(forestChapter){showTalk('Pedra dos Ciclos','PARA repete um bloco um número definido de vezes. Um contador registra quantas vezes algo acontece. Um acumulador guarda a soma. Para percorrer um vetor, use o índice para acessar cada posição.');return}showTalk('Pedra da Memória','Lembre-se: um algoritmo executa instruções na ordem. Variáveis mudam de valor. Comparações produzem verdadeiro ou falso. As estruturas SE e SENÃO escolhem caminhos. E exige duas condições verdadeiras; OU aceita pelo menos uma; NÃO inverte o resultado. Essas regras controlam esta dungeon.')}
 function doorPos(dir){return dir==='west'?{x:75,y:300}:dir==='east'?{x:885,y:300}:dir==='north'?{x:480,y:90}:{x:480,y:510}}
 function discoverInteraction(){let candidates=[];for(const [dir,info] of Object.entries(EXITS[roomId]||{})){const p=doorPos(dir);const d=Math.hypot(player.x-p.x,player.y-p.y);if(d<90)candidates.push({type:'door',dir,info,d,label:dir==='north'?'Porta norte':dir==='south'?'Porta sul':dir==='east'?'Porta leste':'Porta oeste'})}
-for(const ob of room().objects){if(ob.kind==='core'&&!flag(ob.id.replace('B','A')))continue;if(ob.kind==='secret'&&ob.id==='armory'&&!flag('forgeA'))continue;if(ob.kind==='secret'&&ob.id==='garden'&&!flag('libraryA'))continue;const d=Math.hypot(player.x-ob.x,player.y-ob.y);if(d<83)candidates.push({...ob,d,type:ob.kind})}
+for(const ob of room().objects){if(ob.kind==='core'&&!flag(ob.id.replace('B','A')))continue;if(ob.kind==='secret'&&ob.id==='armory'&&!flag('forgeA'))continue;if(ob.kind==='secret'&&ob.id==='garden'&&!flag('libraryA'))continue;if(ob.kind==='secret'&&ob.id==='forestLake'&&!flag('forestA'))continue;if(ob.kind==='secret'&&ob.id==='forestLake'&&!flag('forestA'))continue;const d=Math.hypot(player.x-ob.x,player.y-ob.y);if(d<83)candidates.push({...ob,d,type:ob.kind})}
 candidates.sort((a,b)=>a.d-b.d);return candidates[0]||null}
 function interact(){if(state!=='playing')return;const i=discoverInteraction();if(!i)return;const {type}=i;if(type==='door'){
-if(i.info.room==='tower'&&totalSeals()<3){toast(`A Torre exige 3 selos. Você possui ${totalSeals()}.`,3);sfx('fail');return}if(i.info.room==='armory'&&!flag('forgeA'))return;if(i.info.room==='garden'&&!flag('libraryA'))return;enter(i.info.room,i.info.x,i.info.y);
+if(i.info.room==='forestHub'&&!forestUnlocked){toast('Antes de seguir ao bosque, vença o Arquimago!');return}if(i.info.room==='forestRuins'&&!['forestB','forestC'].every(k=>solved.has(k))){toast('O Santuário exige as essências da Trilha e da Clareira.');return}if(i.info.room==='tower'&&totalSeals()<3&&!forestChapter){toast(`A Torre exige 3 selos. Você possui ${totalSeals()}.`,3);sfx('fail');return}if(i.info.room==='armory'&&!flag('forgeA'))return;if(i.info.room==='garden'&&!flag('libraryA'))return;enter(i.info.room,i.info.x,i.info.y);
 }else if(type==='npc')npcEvent();else if(type==='altar')memoryEvent();else if(type==='rune'||type==='core'){const nearCore=entities[roomId].some(e=>e.alive&&Math.hypot(e.x-i.x,e.y-i.y)<150);if(nearCore&&type==='core'){toast('O guardião da runa está próximo. Enfrente-o primeiro.');return}showPuzzle(i.id)}else if(type==='secret')secretEvent(i.id);else if(type==='treasure')takeTreasure(i.id);}
 function chooseFacing(){let best=null,dist=140;for(const e of entities[roomId]){if(!e.alive)continue;const d=Math.hypot(e.x-player.x,e.y-player.y);if(d<dist){dist=d;best=e}}if(best){player.face=Math.atan2(best.y-player.y,best.x-player.x)}}
-function attack(){if(state!=='playing'||player.attackCd>0)return;chooseFacing();player.attackCd=.45;player.attackFx=.26;sfx('sword');const angle=player.face;let got=false;for(const e of entities[roomId]){if(!e.alive)continue;const dx=e.x-player.x,dy=e.y-player.y,d=Math.hypot(dx,dy);let diff=Math.atan2(Math.sin(Math.atan2(dy,dx)-angle),Math.cos(Math.atan2(dy,dx)-angle));if(d<95&&Math.abs(diff)<1.42){e.hp-=player.dmg;e.flash=.22;e.stun=.20;got=true;particles(e.x,e.y,'#ead7a0',8);if(e.hp<=0){e.alive=false;kills++;particles(e.x,e.y,e.type==='boss'?'#c19ce3':'#92c6a1',22);if(e.type==='boss'){endGame(true)}else if(Math.random()<.21&&player.potions<4){player.potions++;toast('O inimigo deixou uma poção de cura!',2)}}}}if(got)sfx('hit');updateHud();}
+function attack(){if(state!=='playing'||player.attackCd>0)return;chooseFacing();player.attackCd=.45;player.attackFx=.26;sfx('sword');const angle=player.face;let got=false;for(const e of entities[roomId]){if(!e.alive)continue;const dx=e.x-player.x,dy=e.y-player.y,d=Math.hypot(dx,dy);let diff=Math.atan2(Math.sin(Math.atan2(dy,dx)-angle),Math.cos(Math.atan2(dy,dx)-angle));if(d<95&&Math.abs(diff)<1.42){e.hp-=player.dmg;e.flash=.22;e.stun=.20;got=true;particles(e.x,e.y,'#ead7a0',8);if(e.hp<=0){e.alive=false;kills++;particles(e.x,e.y,e.type==='boss'?'#c19ce3':'#92c6a1',22);if(e.type==='boss'){beginPixelDeath(e)}else if(Math.random()<.21&&player.potions<4){player.potions++;toast('O inimigo deixou uma poção de cura!',2)}}}}if(got)sfx('hit');updateHud();}
 function dash(){if(state!=='playing'||player.dashCd>0)return;player.dashCd=1.7;player.dashTime=.21;player.iframes=Math.max(player.iframes,.35);sfx('dash');particles(player.x,player.y,'#a0dce7',6)}
 function potion(){if(state!=='playing')return;if(player.potions<=0){toast('Você não possui poções.');return}if(player.hp===player.maxHp){toast('Sua vida já está completa.');return}player.potions--;player.hp=Math.min(player.maxHp,player.hp+3);particles(player.x,player.y,'#9ee2bf',14);toast('Você recuperou 3 pontos de vida.');updateHud()}
 function hurt(amount=1){if(player.iframes>0||playMode||state!=='playing')return;player.hp=Math.max(0,player.hp-amount);player.iframes=.8;particles(player.x,player.y,'#efad88',9);sfx('hurt');updateHud();if(player.hp<=0)endGame(false)}
-function endGame(win){state='end';const s=win;$('endScreen').hidden=false;$('endEyebrow').textContent=s?'MISSÃO CONCLUÍDA':'UM HERÓI PODE TENTAR DE NOVO';$('endIcons').textContent=s?'🏰 ✦ 🏆':'🛡 ✦ ⚔';$('endTitle').textContent=s?'A torre foi libertada!':'O Arquimago venceu esta batalha';$('endText').innerHTML=s?`Você usou lógica e coragem para reunir os três selos e vencer o Arquimago. <b>${solved.size} enigmas</b> resolvidos, <b>${kills} inimigos</b> vencidos e <b>${Object.values(secrets).filter(Boolean).length} segredos</b> encontrados em <b>${$('timeValue').textContent}</b>.`: 'A aventura termina aqui, mas o aprendizado continua. Use o modo estudo para explorar todos os caminhos, observar o comportamento dos inimigos e praticar as condições.';sfx(s?'solve':'hurt')}
-function showMap(){if(state==='start')return;modalFrom=state;const visited=id=>id===roomId||visitedRooms.has(id);const completed=id=>id==='forge'?seals.forge:id==='library'?seals.library:id==='crypt'?seals.crypt:id==='armory'?secrets.armory:id==='garden'?secrets.garden:false;
+function beginForestChapter(){forestUnlocked=true;forestChapter=true;player.hp=player.maxHp;player.potions=Math.max(2,player.potions);showDialog(`<div class="dialog-header"><span class="dialog-kicker">CAPÍTULO II DESBLOQUEADO</span>${closeButton()}</div><h2>O Bosque dos Laços</h2><p class="story">O Arquimago caiu, mas suas raízes de magia alcançaram a floresta. Os caminhos antigos só reagem aos laços PARA. Escolha uma trilha, encontre duas essências e depois desperte o Santuário.</p><div class="button-row"><button id="chapterOk" class="main-button">Entrar na floresta 🌲</button></div>`);bindClose();$('chapterOk').onclick=()=>{closeDialog();enter('forestHub',480,468);toast('Novo capítulo: explore as trilhas do bosque.',4)}}
+function endGame(win){state='end';const s=win;$('endScreen').hidden=false;$('endEyebrow').textContent=s?'FLORESTA SALVA':'UM HERÓI PODE TENTAR DE NOVO';$('endIcons').textContent=s?'🏰 ✦ 🏆':'🛡 ✦ ⚔';$('endTitle').textContent=s?'O Bosque dos Laços foi salvo!':'A aventura terminou por enquanto';$('endText').innerHTML=s?`Você venceu a cripta e resolveu os desafios de repetição do Bosque dos Laços. <b>${solved.size} enigmas</b> resolvidos, <b>${kills} inimigos</b> vencidos e <b>${Object.values(secrets).filter(Boolean).length} segredos</b> encontrados em <b>${$('timeValue').textContent}</b>.`: 'A aventura termina aqui, mas o aprendizado continua. Use o modo estudo para explorar todos os caminhos, observar o comportamento dos inimigos e praticar as condições.';sfx(s?'solve':'hurt')}
+function showMap(){if(state==='start')return;modalFrom=state;if(forestChapter){const cell=(id,label,sub)=>`<div class="map-cell ${roomId===id?'active':''} ${visitedRooms.has(id)?'completed':''}"><span>${label}</span><small>${sub}</small></div>`;showDialog(`<div class="dialog-header"><span class="dialog-kicker">CAPÍTULO II</span>${closeButton()}</div><h2>Mapa do Bosque dos Laços</h2><p class="story">Explore a Trilha e a Clareira. Encontre suas essências para abrir o Santuário.</p><div class="world-map"><div></div>${cell('forestRuins','♜ Santuário','Final')}<div></div>${cell('forestGrove','❧ Trilha','Contadores')}${cell('forestHub','✦ Clareira central','Encruzilhada')}${cell('forestClearing','✿ Sementes','Vetores')}<div></div>${cell('forestLake','☾ Lago','Segredo')}<div></div></div><div class="button-row"><button class="secondary-button" id="mapOk">Voltar</button></div>`);bindClose();$('mapOk').onclick=closeDialog;return}const visited=id=>id===roomId||visitedRooms.has(id);const completed=id=>id==='forge'?seals.forge:id==='library'?seals.library:id==='crypt'?seals.crypt:id==='armory'?secrets.armory:id==='garden'?secrets.garden:false;
 const cell=(id,label,sub)=>`<div class="map-cell ${roomId===id?'active':''} ${completed(id)?'completed':''} ${!visited(id)?'locked':''}"><span>${label}</span><small>${sub}</small></div>`;
 showDialog(`<div class="dialog-header"><span class="dialog-kicker">CARTOGRAFIA DOS ECOS</span>${closeButton()}</div><h2>Mapa da Cripta</h2><p class="story">Explore as três alas na ordem que preferir. Os caminhos secretos oferecem recompensas opcionais.</p><div class="world-map"><div></div>${cell('tower','♜ Torre','3 selos')}<div></div>${cell('forge','⚒ Forja',completed('forge')?'Selo obtido':'Ala oeste')}${cell('hub','✦ Átrio','Centro')}${cell('library','✧ Biblioteca',completed('library')?'Selo obtido':'Ala leste')}<div></div>${cell('crypt','☽ Catacumba',completed('crypt')?'Selo obtido':'Ala sul')}<div></div>${cell('armory','⚔ Armaria','Segredo') }<div></div>${cell('garden','❀ Jardim','Segredo')}</div><div class="button-row"><button class="secondary-button" id="mapOk">Voltar à aventura</button></div>`);bindClose();$('mapOk').onclick=closeDialog;}
 const visitedRooms=new Set(['hub']);
 entities=Object.fromEntries(Object.keys(ROOMS).map(k=>[k,[]]));
-function showHelp(){if(state==='start')return;showTalk('Como sobreviver à Cripta','<b>WASD ou setas</b> para mover, <b>J ou Espaço</b> para atacar, <b>E</b> para conversar e ativar objetos, <b>Shift</b> para esquivar e <b>Q</b> para usar uma poção. <b>M</b> abre o mapa. Entre nas alas na ordem que quiser. Procure símbolos brilhantes e observe as mudanças no cenário depois de resolver cada enigma.');}
+function showHelp(){if(state==='start')return;showTalk('Como sobreviver à aventura','<b>WASD ou setas</b> para mover, <b>J ou Espaço</b> para atacar, <b>E</b> para conversar e ativar objetos, <b>Shift</b> para esquivar e <b>Q</b> para usar uma poção. <b>M</b> abre o mapa. Entre nas alas na ordem que quiser. Procure símbolos brilhantes e observe as mudanças no cenário depois de resolver cada enigma.');}
 function collideRect(x,y,r,rect){const px=clamp(x,rect.x,rect.x+rect.w),py=clamp(y,rect.y,rect.y+rect.h);return Math.hypot(x-px,y-py)<r}
 function blocked(x,y){if(x<78||x>882||y<98||y>502)return true;for(const ob of room().obstacles){if(collideRect(x,y,19,ob))return true}
 if(roomId==='forge'&&!flag('forgeA')&&x>440&&x<502&&y>91&&y<505)return true;
 if(roomId==='library'&&!flag('libraryA')&&x>459&&x<504&&y>95&&y<505)return true;
-if(roomId==='crypt'&&!flag('cryptA')&&y>318&&y<361&&x>74&&x<885)return true;
+if(roomId==='crypt'&&!flag('cryptA')&&y>318&&y<361&&x>74&&x<885)return true;if(roomId==='forestGrove'&&!flag('forestA')&&x>450&&x<510&&y>94&&y<504)return true;
 return false}
 function moveEntity(ent,vx,vy,dt,r=19){const tx=ent.x+vx*dt,ty=ent.y+vy*dt;if(ent===player){if(!blocked(tx,ent.y))ent.x=tx;if(!blocked(ent.x,ty))ent.y=ty}else{const oldX=ent.x,oldY=ent.y;if(tx>80&&tx<880&&ty>100&&ty<501){if(!collideObstacle(tx,oldY,r))ent.x=tx;if(!collideObstacle(ent.x,ty,r))ent.y=ty}}}
-function collideObstacle(x,y,r){return room().obstacles.some(o=>collideRect(x,y,r,o))||roomId==='forge'&&!flag('forgeA')&&x>442&&x<502||roomId==='library'&&!flag('libraryA')&&x>460&&x<505||roomId==='crypt'&&!flag('cryptA')&&y>317&&y<365}
-function update(dt){if(state!=='playing')return;elapsed+=dt;gameTime+=dt;roomTime+=dt;frame++;if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0){$('toast').textContent='';toastText=''}}
+function collideObstacle(x,y,r){return room().obstacles.some(o=>collideRect(x,y,r,o))||roomId==='forge'&&!flag('forgeA')&&x>442&&x<502||roomId==='library'&&!flag('libraryA')&&x>460&&x<505||roomId==='crypt'&&!flag('cryptA')&&y>317&&y<365||roomId==='forestGrove'&&!flag('forestA')&&x>451&&x<509}
+function update(dt){if(state==='cutscene'){elapsed+=dt;gameTime+=dt;roomTime+=dt;frame++;if(pixelDeath){pixelDeath.t+=dt;if(pixelDeath.t>=pixelDeath.duration){const endForest=pixelDeath.forest;pixelDeath=null;state='playing';if(endForest)endGame(true);else beginForestChapter()}}return}if(state!=='playing')return;elapsed+=dt;gameTime+=dt;roomTime+=dt;frame++;if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0){$('toast').textContent='';toastText=''}}
 player.attackCd=Math.max(0,player.attackCd-dt);player.attackFx=Math.max(0,player.attackFx-dt);player.iframes=Math.max(0,player.iframes-dt);player.dashCd=Math.max(0,player.dashCd-dt);player.dashTime=Math.max(0,player.dashTime-dt);
 let dx=(keys.d||keys.arrowright||mobile.right?1:0)-(keys.a||keys.arrowleft||mobile.left?1:0),dy=(keys.s||keys.arrowdown||mobile.down?1:0)-(keys.w||keys.arrowup||mobile.up?1:0);const d=Math.hypot(dx,dy);if(d){dx/=d;dy/=d;player.face=Math.atan2(dy,dx);const spd=player.dashTime>0?640:205;moveEntity(player,dx*spd,dy*spd,dt);if(Math.random()<dt*10)particles(player.x,player.y+15,'#a4a093',1)}
 for(const e of entities[roomId]){if(!e.alive)continue;e.flash=Math.max(0,e.flash-dt);e.stun=Math.max(0,e.stun-dt);e.step+=dt*4;if(e.stun>0)continue;const xd=player.x-e.x,yd=player.y-e.y,dist=Math.hypot(xd,yd),angle=Math.atan2(yd,xd);if(e.phase==='attack'){e.timer-=dt;if(e.timer<=0){if(e.type==='mage'||e.type==='boss'){const v=e.type==='boss'?220:198;projectiles.push({x:e.x,y:e.y,vx:Math.cos(angle)*v,vy:Math.sin(angle)*v,life:2.8,type:e.type});if(e.type==='boss'){for(const offset of [-.3,.3])projectiles.push({x:e.x,y:e.y,vx:Math.cos(angle+offset)*v,vy:Math.sin(angle+offset)*v,life:2.2,type:'boss'})}}else if(dist<78)hurt();e.phase='recover';e.timer=e.type==='boss'?.5:.6}}else if(e.phase==='recover'){e.timer-=dt;if(e.timer<=0)e.phase='idle';}else if(dist<(e.type==='boss'?700:330)){const range=e.type==='mage'?210:e.type==='boss'?240:52;if(dist<range){e.phase='attack';e.timer=e.type==='elf'?.38:e.type==='boss'?.77:.58;}else{const amount=e.speed*dt*(e.type==='elf'?1.12:1);moveEntity(e,xd/Math.max(1,dist)*amount,yd/Math.max(1,dist)*amount,1,18)}}else{let bx=e.homeX-e.x,by=e.homeY-e.y,bd=Math.hypot(bx,by);if(bd>58)moveEntity(e,bx/bd*20,by/bd*20,dt,18)}}
@@ -178,7 +208,7 @@ function text(s,x,y,size=13,color='#fff',align='center',font='system-ui'){ctx.fi
 function poly(points,color){ctx.fillStyle=color;ctx.beginPath();points.forEach((p,i)=>i===0?ctx.moveTo(...p):ctx.lineTo(...p));ctx.closePath();ctx.fill()}
 function glow(x,y,r,color,alpha=.18){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color);g.addColorStop(1,'transparent');ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);ctx.restore()}
 function hash(n){let s=Math.sin(n*127.1+73.13)*43758.5453123;return s-Math.floor(s)}
-function baseRoom(){const r=room(),tone=r.tone;R(0,0,W,H,'#050d12');let bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0d171d');bg.addColorStop(1,'#081116');R(0,0,W,H,bg);R(36,56,888,499,'#182328');R(42,62,876,487,'#111d22');
+function baseRoom(){if(roomId.startsWith('forest')){baseForest();return}const r=room(),tone=r.tone;R(0,0,W,H,'#050d12');let bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0d171d');bg.addColorStop(1,'#081116');R(0,0,W,H,bg);R(36,56,888,499,'#182328');R(42,62,876,487,'#111d22');
 const floorGrad=ctx.createLinearGradient(68,84,890,522);floorGrad.addColorStop(0,r.floor);floorGrad.addColorStop(1,'#1c2429');R(68,84,822,439,floorGrad);
 // richer stone tiles
 ctx.save();ctx.beginPath();ctx.rect(69,85,820,437);ctx.clip();
@@ -202,7 +232,7 @@ for(let y=104;y<535;y+=54){R(46,y,25,4,'#45574d');R(888,y,28,4,'#3f554b')}
 // torches
 for(const pos of [[112,111],[848,111],[112,500],[848,500]]) drawTorch(pos[0],pos[1], roomId==='crypt'?'#bf8df5':roomId==='forge'?'#f1954f':'#f1c375');
 // doorways
-for(const [dir,target] of r.doors){let locked=target==='tower'&&totalSeals()<3;if((target==='armory'&&!flag('forgeA'))||(target==='garden'&&!flag('libraryA')))locked=true;const p=doorPos(dir);ctx.save();glow(p.x,p.y,86,locked?'#b04e5b':'#cdbf8a',.18);if(dir==='north'||dir==='south'){R(p.x-62,dir==='north'?52:535,124,23,locked?'#5f403f':'#555a44');R(p.x-56,dir==='north'?74:507,112,28,'#0a1c20');R(p.x-50,dir==='north'?80:510,100,20,locked?'#6c3743':'#3a786d');for(let i=-36;i<=36;i+=18)R(p.x+i,dir==='north'?84:511,4,14,'#0e1418')}else{R(dir==='west'?44:892,p.y-66,24,132,locked?'#5f403f':'#555a44');R(dir==='west'?66:872,p.y-58,26,116,'#0a1c20');R(dir==='west'?72:877,p.y-52,14,102,locked?'#6c3743':'#3a786d');for(let i=-42;i<=42;i+=18)R(dir==='west'?76:878,p.y+i,10,4,'#0e1418')};circle(p.x,p.y,locked?10:7,locked?'#a76d6d':'#e8c17c');text(locked?'✖':'◆',p.x,p.y+5,13,locked?'#f6a3a1':'#f3d79b');ctx.restore()}
+for(const [dir,target] of r.doors){let locked=(target==='tower'&&totalSeals()<3&&!forestChapter)||(target==='forestHub'&&!forestUnlocked)||(target==='forestRuins'&&!['forestB','forestC'].every(k=>solved.has(k)));if((target==='armory'&&!flag('forgeA'))||(target==='garden'&&!flag('libraryA')))locked=true;const p=doorPos(dir);ctx.save();glow(p.x,p.y,86,locked?'#b04e5b':'#cdbf8a',.18);if(dir==='north'||dir==='south'){R(p.x-62,dir==='north'?52:535,124,23,locked?'#5f403f':'#555a44');R(p.x-56,dir==='north'?74:507,112,28,'#0a1c20');R(p.x-50,dir==='north'?80:510,100,20,locked?'#6c3743':'#3a786d');for(let i=-36;i<=36;i+=18)R(p.x+i,dir==='north'?84:511,4,14,'#0e1418')}else{R(dir==='west'?44:892,p.y-66,24,132,locked?'#5f403f':'#555a44');R(dir==='west'?66:872,p.y-58,26,116,'#0a1c20');R(dir==='west'?72:877,p.y-52,14,102,locked?'#6c3743':'#3a786d');for(let i=-42;i<=42;i+=18)R(dir==='west'?76:878,p.y+i,10,4,'#0e1418')};circle(p.x,p.y,locked?10:7,locked?'#a76d6d':'#e8c17c');text(locked?'✖':'◆',p.x,p.y+5,13,locked?'#f6a3a1':'#f3d79b');ctx.restore()}
 // environmental texture and identity
 if(roomId==='forge'){for(let i=0;i<7;i++){let y=112+i*57;glow(490,y,64,'#f88549',.12);R(475,y,8,23,'#bf594544')}drawFurnace(160,150);drawFurnace(805,407);drawFloorMotif(483,320,'cross','#f1aa67')}
 if(roomId==='library'){for(let i=0;i<7;i++){drawBooks(104+i*111,127)}for(let i=0;i<5;i++){drawBooks(130+i*153,461)}drawFloorMotif(481,319,'ring','#a8c4ec')}
@@ -212,7 +242,23 @@ if(roomId==='tower'){for(let i=0;i<8;i++)glow(170+i*86,135,43,'#ad82c5',.13);dra
 if(roomId==='armory'){for(let i=0;i<5;i++)drawWeaponRack(159+i*151,163);drawFloorMotif(482,321,'cross','#d5bc8f')}
 if(roomId==='garden'){for(let i=0;i<23;i++)drawPlant(103+hash(i*12)*750,104+hash(i*55)*378);drawFloorMotif(481,320,'ring','#8ed0b2')}
 ctx.save();ctx.globalAlpha=.62;text(r.name.toUpperCase(),480,117,13,'#e6ddc3','center','Georgia');ctx.restore();
-}function drawFountain(x,y){glow(x,y,96,'#62bcb6',.11);circle(x,y+22,70,'#151d20');circle(x,y+10,65,'#697970');circle(x,y+9,53,'#173a48');circle(x,y+9,47,'#275e66');for(let i=0;i<5;i++){const a=gameTime*.2+i*Math.PI*2/5;circle(x+Math.cos(a)*28,y+9+Math.sin(a)*27,2.1,'#95cecc')}circle(x,y-9,17,'#6b7770');circle(x,y-15,9,'#bdd3c3')}
+}
+function treeShape(x,y,scale=1){ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);circle(2,16,26,'#071c13aa');R(-8,4,16,32,'#4e3a2b');line(-2,7,-11,19,'#76533b',3);for(let i=0;i<3;i++){const a=i*2.1+1;circle(Math.cos(a)*17,Math.sin(a)*11-14,24,['#1e503a','#276c45','#30734a'][i])}circle(-5,-25,25,'#347d52');circle(7,-33,14,'#4c9c63');circle(-15,-34,8,'#70b47777');ctx.restore()}
+function baseForest(){const r=room();R(0,0,W,H,'#0b1e19');const grad=ctx.createLinearGradient(0,62,960,530);grad.addColorStop(0,'#1c4933');grad.addColorStop(.6,r.floor);grad.addColorStop(1,'#172c25');R(60,70,840,468,grad);
+ctx.save();ctx.beginPath();ctx.rect(69,85,820,437);ctx.clip();for(let i=0;i<420;i++){const x=70+hash(i*6+roomId.length)*820,y=86+hash(i*17+roomId.length*3)*438,size=1+hash(i*31)*5;circle(x,y,size,i%6===0?'#a6d79b2b':i%3===0?'#0d241738':'#78af6e1c')}
+// branching moss paths, nature geometry
+ctx.strokeStyle='#9b85554b';ctx.lineWidth=82;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(100,300);ctx.bezierCurveTo(280,270,320,335,481,294);ctx.bezierCurveTo(640,255,718,320,880,300);ctx.stroke();ctx.lineWidth=72;ctx.strokeStyle='#b59e6960';ctx.beginPath();ctx.moveTo(480,100);ctx.bezierCurveTo(505,190,450,240,480,300);ctx.bezierCurveTo(515,390,458,430,480,505);ctx.stroke();for(let i=0;i<36;i++){const a=i*.54,x=480+Math.cos(a)*160,y=310+Math.sin(a)*135;circle(x,y,1.5,'#ffeaab4d')}ctx.restore();
+for(let i=0;i<18;i++){const x=79+i*46;treeShape(x,54,.65+hash(i*5)*.23);treeShape(x,549,.68+hash(i*19)*.22)}for(let i=0;i<10;i++){const y=104+i*45;treeShape(43,y,.65);treeShape(921,y,.70)}
+// local vegetation and water
+for(let i=0;i<18;i++){const x=100+hash(i*17+2)*770,y=100+hash(i*34+9)*413;if((x<260||x>710)&&(y<195||y>410)){circle(x,y,4,'#efc98c');circle(x-2,y-3,2,'#f6e3b3')}}
+if(roomId==='forestLake'){glow(480,289,185,'#5ac8b4',.23);circle(479,307,108,'#153f43');circle(478,302,93,'#285c5b');circle(479,298,78,'#438e88');for(let k=0;k<8;k++){const a=gameTime*.4+k*.8;circle(480+Math.cos(a)*72,300+Math.sin(a)*63,2.5,'#a7e5cd')}}
+if(roomId==='forestRuins'){drawSigil(481,302,142,'#cfdaa2',true);for(let i=0;i<6;i++){const a=i*Math.PI/3;circle(481+Math.cos(a)*120,300+Math.sin(a)*110,14,'#66755d')}}
+if(roomId==='forestClearing'){for(let i=0;i<9;i++){const x=245+hash(i*13)*505,y=170+hash(i*31)*260;drawPlant(x,y)}}
+if(roomId==='forestGrove'){for(let i=0;i<9;i++){const x=140+hash(i*23)*660,y=130+hash(i*61)*325;drawPlant(x,y)}}
+for(const [dir,target] of r.doors){const p=doorPos(dir);const locked=(target==='forestRuins'&&!['forestB','forestC'].every(k=>solved.has(k)));glow(p.x,p.y,80,locked?'#d4685c':'#c1dc9b',.23);circle(p.x,p.y,20,locked?'#6c3435':'#2f6b51');text(locked?'✖':'✦',p.x,p.y+5,18,locked?'#f3b19d':'#d8eeb6')}
+ctx.save();ctx.globalAlpha=.75;text(r.name.toUpperCase(),480,116,13,'#eef6d7','center','Georgia');ctx.restore();}
+function drawForestObstacle(ob){const x=ob.x+ob.w/2,y=ob.y+ob.h/2;treeShape(x,y,Math.min(1.3,Math.max(.7,ob.w/75)));}
+function drawFountain(x,y){glow(x,y,96,'#62bcb6',.11);circle(x,y+22,70,'#151d20');circle(x,y+10,65,'#697970');circle(x,y+9,53,'#173a48');circle(x,y+9,47,'#275e66');for(let i=0;i<5;i++){const a=gameTime*.2+i*Math.PI*2/5;circle(x+Math.cos(a)*28,y+9+Math.sin(a)*27,2.1,'#95cecc')}circle(x,y-9,17,'#6b7770');circle(x,y-15,9,'#bdd3c3')}
 function drawFurnace(x,y){R(x-28,y-12,58,55,'#151f25');R(x-33,y-19,67,16,'#51534d');glow(x,y+13,71,'#e68048',.14);R(x-17,y+1,34,26,'#482728');poly([[x-15,y+25],[x-11,y+5],[x,y+16],[x+7,y-7],[x+16,y+25]],'#f8a054')}
 function drawBooks(x,y){R(x-28,y-27,56,49,'#111e24');R(x-25,y-24,50,43,'#493930');for(let i=0;i<6;i++){R(x-22+i*8,y-19,6,34,['#85765b','#9e6653','#4c7f83','#b09565','#6d6488','#66764a'][i])}}
 function drawGrave(x,y){R(x-24,y-19,52,44,'#101a1e');R(x-25,y-27,47,41,'#64656a');R(x-22,y-31,42,8,'#999597');line(x,y-21,x,y+3,'#44474d',3);line(x-10,y-11,x+10,y-11,'#44474d',3)}
@@ -223,12 +269,12 @@ function drawPlant(x,y){circle(x,y,12,'#0b2926');for(let i=0;i<5;i++){let a=i*1.
 function drawTorch(x,y,color='#f4ae65'){R(x-4,y-9,8,25,'#65503d');R(x-6,y+7,12,5,'#8c7355');glow(x,y-13,48,color,.18);circle(x,y-13,10,'#6a2f20');circle(x-1,y-16,8,'#e27c44');circle(x+1,y-19,5,'#ffd27d');circle(x,y-22,2.4,'#fff3be')}
 function drawColumn(x,y,h=56){R(x-14,y-h/2,28,h,'#3b4548');R(x-18,y-h/2-6,36,8,'#78847d');R(x-18,y+h/2-2,36,8,'#6b756f');R(x-9,y-h/2+8,4,h-16,'#4a5659');R(x+5,y-h/2+8,4,h-16,'#4a5659')}
 function drawFloorMotif(x,y,kind,color){ctx.save();ctx.globalAlpha=.42; if(kind==='ring'){ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,28,0,6.28);ctx.stroke();ctx.beginPath();ctx.arc(x,y,14,0,6.28);ctx.stroke();} else {ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-21,y);ctx.lineTo(x+21,y);ctx.moveTo(x,y-21);ctx.lineTo(x,y+21);ctx.stroke();circle(x,y,6,color);} ctx.restore()}
-function drawObstacle(ob){let {x,y,w,h}=ob;R(x+6,y+15,w,h,'#07131575');const top=ctx.createLinearGradient(x,y,x,y+h);top.addColorStop(0,'#333d41');top.addColorStop(1,'#22292d');R(x,y+9,w,h-5,top);R(x-2,y-4,w+4,17,'#5d6c66');R(x+8,y-10,w-17,12,'#8a9488');R(x+12,y+18,w-24,4,'#92a29622');for(let i=0;i<w/28;i++){R(x+13+i*27,y+1,3,8,'#1c2929'); if(i<w/28-1) line(x+16+i*27,y+18,x+26+i*27,y+30,'#00000014',1.2)}if(w>74&&h>48){R(x+14,y+22,w-28,h-26,'#ffffff05');ctx.strokeStyle='#00000018';ctx.strokeRect(x+14,y+22,w-28,h-26)}}
-function drawBarriers(){if(roomId==='forge'&&!flag('forgeA')){for(let i=0;i<9;i++){let y=105+i*46;glow(481,y,36,'#e9714b',.24);R(460,y,42,38,'#572b29');R(468,y+3,26,32,'#d46c3a');R(478,y+5,8,25,'#f9ab52')}text('PONTE DESATIVADA',482,487,11,'#ffd1a4')}
+function drawObstacle(ob){if(roomId.startsWith('forest')){drawForestObstacle(ob);return}let {x,y,w,h}=ob;R(x+6,y+15,w,h,'#07131575');const top=ctx.createLinearGradient(x,y,x,y+h);top.addColorStop(0,'#333d41');top.addColorStop(1,'#22292d');R(x,y+9,w,h-5,top);R(x-2,y-4,w+4,17,'#5d6c66');R(x+8,y-10,w-17,12,'#8a9488');R(x+12,y+18,w-24,4,'#92a29622');for(let i=0;i<w/28;i++){R(x+13+i*27,y+1,3,8,'#1c2929'); if(i<w/28-1) line(x+16+i*27,y+18,x+26+i*27,y+30,'#00000014',1.2)}if(w>74&&h>48){R(x+14,y+22,w-28,h-26,'#ffffff05');ctx.strokeStyle='#00000018';ctx.strokeRect(x+14,y+22,w-28,h-26)}}
+function drawBarriers(){if(roomId==='forestGrove'&&!flag('forestA')){for(let y=102;y<504;y+=30){glow(481,y,48,'#a8e38c',.12);line(457,y,497,y+18,'#6ebd72',9);circle(480,y+10,5,'#c2df8e')}text('RAÍZES SELADAS',481,497,12,'#e2f0bd')}if(roomId==='forge'&&!flag('forgeA')){for(let i=0;i<9;i++){let y=105+i*46;glow(481,y,36,'#e9714b',.24);R(460,y,42,38,'#572b29');R(468,y+3,26,32,'#d46c3a');R(478,y+5,8,25,'#f9ab52')}text('PONTE DESATIVADA',482,487,11,'#ffd1a4')}
 if(roomId==='library'&&!flag('libraryA')){glow(481,312,175,'#83afdf',.2);R(463,96,35,406,'#356b9277');for(let y=95;y<503;y+=27){line(468,y,492,y+20,'#93c6f0',3)}text('PORTÃO SELADO',482,487,11,'#d6e9ff')}
 if(roomId==='crypt'&&!flag('cryptA')){glow(480,338,240,'#a282da',.19);R(80,326,802,34,'#5c4b826e');for(let x=80;x<875;x+=52){circle(x,342,15,'#9a7ab288');circle(x,342,6,'#c7a3d8')}text('NÉVOA ENCANTADA',480,385,12,'#d9beec')}
 }
-function drawObjects(){for(const ob of room().objects){let disabled=(ob.kind==='core'&&!flag(ob.id.replace('B','A')))||(ob.kind==='secret'&&((ob.id==='armory'&&!flag('forgeA'))||(ob.id==='garden'&&!flag('libraryA'))));if(disabled&&ob.kind==='secret')continue;const x=ob.x,y=ob.y,t=gameTime*3;const used=ob.id&&(solved.has(ob.id)||secrets.armory&&ob.id==='armoryTreasure'||secrets.garden&&ob.id==='gardenTreasure');ctx.save();if(disabled)ctx.globalAlpha=.5;
+function drawObjects(){for(const ob of room().objects){let disabled=(ob.kind==='core'&&!flag(ob.id.replace('B','A')))||(ob.kind==='secret'&&((ob.id==='armory'&&!flag('forgeA'))||(ob.id==='garden'&&!flag('libraryA'))));if(disabled&&ob.kind==='secret')continue;const x=ob.x,y=ob.y,t=gameTime*3;const used=ob.id&&(solved.has(ob.id)||secrets.armory&&ob.id==='armoryTreasure'||secrets.garden&&ob.id==='gardenTreasure'||secrets.lake&&ob.id==='lakeTreasure');ctx.save();if(disabled)ctx.globalAlpha=.5;
 if(ob.kind==='npc'){glow(x,y,67,'#dfc289',.14);circle(x,y+10,20,'#132027');circle(x,y-6,17,'#847864');poly([[x-21,y+13],[x-11,y-12],[x,y+10],[x+15,y-12],[x+20,y+13]],'#b7a17a');circle(x,y-11,10,'#e1cda5');text('!',x,y-39,17,'#f3d48e')}
 else if(ob.kind==='altar'){circle(x,y+9,35,'#0b171e');circle(x,y+3,27,'#5b746f');drawSigil(x,y,39,'#7fc5b8');text('?',x,y+10,17,'#c1e5d8')}
 else if(ob.kind==='rune'||ob.kind==='core'){glow(x,y,74,used?'#84bcb0':ob.kind==='core'?'#edd194':'#95c7db',used?.1:.18);circle(x,y+10,29,'#0e1920');circle(x,y+4,25,'#69736e');circle(x,y,19,used?'#3d7166':'#294b5e');drawSigil(x,y,29,used?'#a1e5c4':'#e2ce93');text(used?'✓':disabled?'◌':'✦',x,y+6,22,used?'#b2ffd0':'#f7dba3')}
@@ -255,20 +301,263 @@ if(e.hp<e.maxHp||e.type==='boss'){const w=e.type==='boss'?100:42;R(x-w/2,y-(e.ty
 function drawProjectiles(){for(const p of projectiles){const r=p.type==='boss'?11:7;glow(p.x,p.y,34,'#ab8cdd',.3);for(let i=1;i<=3;i++)circle(p.x-p.vx*0.012*i,p.y-p.vy*0.012*i,Math.max(1,r-i*1.7),'#d2b7f155');circle(p.x,p.y,r,'#9d73c7');circle(p.x-2,p.y-2,3,'#edc8f2')}}
 function drawFx(){for(const f of fx){ctx.globalAlpha=Math.min(1,f.life/f.max);if(f.size>4)glow(f.x,f.y,f.size*4,f.color,.08);circle(f.x,f.y,f.size,f.color)}ctx.globalAlpha=1}
 function drawCompass(){const x=861,y=87;ctx.globalAlpha=.72;circle(x,y,30,'#08161d');circle(x,y,26,'#10232c');ctx.strokeStyle='#cab98d';ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(x,y,25,0,6.28);ctx.stroke();line(x-18,y,x+18,y,'#43555a',1);line(x,y-18,x,y+18,'#43555a',1);text('N',x,y-12,11,'#cbbd92');poly([[x,y-14],[x-7,y+9],[x,y+4],[x+7,y+9]],'#f2d4aa');ctx.globalAlpha=1}
-function draw(){ctx.clearRect(0,0,W,H);baseRoom();for(const ob of room().obstacles)drawObstacle(ob);drawBarriers();drawObjects();drawProjectiles();for(const e of entities[roomId])drawEnemy(e);drawHero();drawFx();drawCompass();
-if(state==='start'){ctx.save();ctx.fillStyle='#040c1199';ctx.fillRect(0,0,W,H);ctx.restore()}
-// soft vignette to frame the stage
-let v=ctx.createRadialGradient(480,290,240,480,290,620);v.addColorStop(0,'#00000000');v.addColorStop(1,'#00000091');R(0,0,W,H,v);
+let pixelDeath=null;
+function beginPixelDeath(e){
+  pixelDeath={x:e.x,y:e.y,forest:roomId==='forestRuins',t:0,duration:2.75};
+  state='cutscene';projectiles=[];keys={};
+  player.iframes=Math.max(player.iframes,2);particles(e.x,e.y,pixelDeath.forest?'#a6eeac':'#d1a1ef',16);sfx('solve');
+}
+/* PIXEL-ART RENDERER - original 16-bit fantasy visuals, optimized 480x300 internal canvas. */
+const PIX_W=480, PIX_H=300;
+const pixSurface=document.createElement('canvas');
+pixSurface.width=PIX_W; pixSurface.height=PIX_H;
+const pixCtx=pixSurface.getContext('2d',{alpha:false});
+const pixSprites=new Map(), pixBackgrounds=new Map();
+const pxInt=n=>Math.round(n/2)*2;
+const pr=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(pxInt(x),pxInt(y),Math.max(2,pxInt(w)),Math.max(2,pxInt(h)))};
+const pseed=(x,y,s=0)=>{let n=Math.sin(x*127.1+y*311.7+s*19.19)*43758.5453;return n-Math.floor(n)};
+const pixColors={
+ hub:['#1b2b39','#2b4148','#364e53','#53645a','#102027','#65aaa9'],
+ forge:['#342b35','#49363e','#634c48','#8b6250','#221e28','#f79a4c'],
+ library:['#202b42','#2a3850','#3a4d61','#637385','#121e31','#92b7ed'],
+ crypt:['#29263b','#39344e','#50435b','#756077','#191628','#bb91df'],
+ armory:['#282f38','#3b4949','#51625c','#827c65','#131e29','#f1cc7f'],
+ garden:['#203c38','#305447','#466758','#77937a','#102824','#8cddbb'],
+ tower:['#2b263c','#3e3555','#55476a','#806886','#1b172d','#d1a5ed']
+};
+function pixPalette(){return pixColors[roomId]||pixColors.hub}
+function makeSprite(key,fn,w=28,h=38){if(pixSprites.has(key))return pixSprites.get(key);const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  const b=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)};
+  const l=(x1,y1,x2,y2,c)=>{g.strokeStyle=c;g.lineWidth=1;g.beginPath();g.moveTo(x1+.5,y1+.5);g.lineTo(x2+.5,y2+.5);g.stroke()};
+  fn(b,l,g,w,h);pixSprites.set(key,c);return c;
+}
+function unitSprite(type,fr=0,variant='front'){
+ const key=`unit-${type}-${fr}-${variant}`;
+ return makeSprite(key,(b,l,g,w,h)=>{
+ const ink='#10192a',d='#1a2534';
+ if(type==='hero'){
+   // boots and separate stepping frames
+   b(8,29,7,5,ink); b(17,29,7,5,ink); b(9,29+(fr?2:0),5,5,'#42566d');b(18,29+(fr?0:2),5,5,'#42566d');
+   b(7,14,19,15,ink);b(8,15,17,13,'#1d4f81');b(11,16,11,11,'#347db3');b(12,17,9,8,'#a7b7c3');b(13,18,7,3,'#e5e3c7');
+   b(6,17,5,13,ink);b(6,18,4,10,'#ac2c45');b(22,17,5,12,ink);b(23,18,3,10,'#9f253f');
+   b(7,11,7,10,ink);b(8,12,5,9,'#7a94a1');b(24,11,5,10,ink);b(25,12,3,8,'#7a94a1');
+   b(11,4,13,14,ink);b(12,5,11,12,'#8fabb8');b(14,7,7,7,'#244968');b(14,9,3,2,'#8de7fb');b(19,9,3,2,'#8de7fb');
+   b(13,2,9,4,ink);b(14,3,7,2,'#c6d8de');b(17,0,2,5,'#ffd873');b(13,14,9,2,'#dfc379');
+   // shield and sword
+   b(2,17,7,12,ink);b(3,18,5,9,'#d5bc7d');b(4,19,3,7,'#286287');b(5,21,1,3,'#b4d9f1');
+   b(27,7,2,22,ink);b(28,4,2,20,'#d7e8f4');b(28,2,2,4,'#f1fbff');b(25,23,7,2,'#dfae64');b(28,25,1,6,'#8b513b');
+   if(variant==='back'){b(12,6,11,9,'#899faa');b(14,17,8,12,'#8c3547');b(15,18,6,7,'#bd4761');}
+ }else if(type==='orc'){
+   b(9,28,6,5,ink);b(17,28,6,5,ink);b(9,29,6,4,'#4d5435');b(17,29,6,4,'#4d5435');
+   b(7,15,19,14,ink);b(8,16,17,12,'#677b3f');b(10,18,13,6,'#897444');b(11,22,11,3,'#59432a');
+   b(6,15,6,12,ink);b(7,16,4,10,'#92a554');b(23,15,6,12,ink);b(24,16,4,10,'#92a554');
+   b(9,5,16,14,ink);b(10,6,14,12,'#7c9952');b(6,7,5,7,ink);b(7,8,4,4,'#779346');b(24,7,5,7,ink);b(25,8,3,4,'#779346');
+   b(12,10,4,3,'#f5c278');b(20,10,3,3,'#f5c278');b(12,13,12,3,'#34402f');b(16,14,3,2,'#d6ba7d');
+   b(28,9,3,21,'#4b3529');b(27,6,5,5,'#c5cad0');b(26,7,7,2,'#e5e5de');
+ }else if(type==='elf'){
+   b(11,29,5,6,ink);b(19,29,5,6,ink);b(12,29,3,5,'#433958');b(20,29,3,5,'#433958');
+   b(10,13,17,17,ink);b(11,14,15,16,'#654576');b(14,16,9,13,'#936aa2');b(7,15,5,13,'#1c2336');b(8,16,3,10,'#6b4a7f');
+   b(25,16,5,12,ink);b(26,17,3,9,'#6b4a7f');
+   b(9,4,19,13,ink);b(11,5,15,11,'#e0b0a6');b(5,6,7,5,ink);b(6,7,6,3,'#d7a69e');b(27,6,7,5,ink);b(27,7,6,3,'#d7a69e');
+   b(11,1,15,7,ink);b(12,2,13,6,'#c6c3d7');b(13,9,3,2,'#fc75ab');b(22,9,3,2,'#fc75ab');
+   b(28,6,2,18,'#ead5b4');b(29,5,1,18,'#886d4d');
+ }else if(type==='mage'){
+   b(7,15,23,18,ink);b(9,16,19,16,'#443666');b(12,20,13,12,'#72558c');b(15,25,9,3,'#9e78b6');
+   b(8,4,21,16,ink);b(10,5,17,13,'#34294d');b(8,4,21,4,'#79578b');b(12,9,14,9,'#b1a0ad');
+   b(15,12,4,2,'#9ef2e3');b(22,12,4,2,'#9ef2e3');
+   b(29,8,2,23,'#a6936a');b(28,4,4,8,'#e7ca86');b(28,3,4,4,'#b8ddff');
+ }else if(type==='boss'){
+   b(10,33,9,9,ink);b(28,33,9,9,ink);b(11,34,8,7,'#312e51');b(28,34,8,7,'#312e51');
+   b(5,15,37,24,ink);b(7,16,33,20,'#49335d');b(11,17,26,16,'#71517e');b(17,19,14,10,'#2a2747');
+   b(3,17,9,20,ink);b(5,18,6,16,'#5c4971');b(39,17,8,20,ink);b(40,18,6,16,'#5c4971');
+   b(13,4,25,17,ink);b(15,5,21,14,'#c5a9ad');b(15,11,5,3,'#fb91cb');b(30,11,5,3,'#fb91cb');
+   b(11,1,29,7,ink);b(13,2,25,5,'#d6ae68');b(15,0,5,4,'#f3d187');b(23,-1,4,5,'#f3d187');b(32,0,5,4,'#f3d187');
+   b(43,1,3,33,'#a79570');b(42,0,5,8,'#d0a6f1');b(42,4,5,3,'#f4d9ff');
+   if(variant==='forest'){b(10,18,29,12,'#53764c');b(20,20,11,8,'#769c62');b(14,5,21,10,'#a5c68b');b(15,11,5,3,'#f7e5a7');b(30,11,5,3,'#f7e5a7');}
+ }
+ },type==='boss'?50:35,type==='boss'?44:38);
+}
+function natureSprite(type='tree',variant=0){return makeSprite(`nature-${type}-${variant}`,(b,l,g,w,h)=>{
+ const ink='#112c2e';
+ if(type==='tree'){
+   b(21,30,10,25,'#1b2b29');b(23,31,7,23,'#634537');b(24,31,2,18,'#ad7750');b(29,34,2,16,'#47352c');
+   b(15,17,26,24,ink);b(12,12,30,25,'#124d4d');b(7,14,38,20,ink);b(10,10,34,22,'#1b6254');
+   b(13,7,28,20,ink);b(15,4,25,20,variant%2?'#2c7f69':'#28735d');b(20,0,15,13,'#4fa27a');
+   b(11,18,8,5,'#3f9a72');b(19,8,5,5,'#6eb68b');b(31,10,5,6,'#63b582');b(34,20,5,4,'#174d4a');b(15,27,8,3,'#174e46');
+ }else if(type==='bush'){
+   b(2,12,28,12,ink);b(5,7,22,14,'#23645c');b(8,4,16,10,'#2f8d74');b(6,13,6,5,'#48a080');b(20,9,7,5,'#56b18a');b(12,5,4,4,'#91d09a');
+ }else if(type==='rock'){
+   b(3,10,27,16,ink);b(5,7,25,16,'#465d64');b(10,3,18,16,'#788992');b(12,5,13,4,'#aeb9aa');b(4,19,7,6,'#293d47');b(20,18,8,5,'#324651');
+ }else if(type==='flower'){
+   b(15,13,2,16,'#2e7d53');b(11,18,5,4,'#3a9764');b(16,21,5,5,'#3a9764');b(10,10,4,5,'#eac38c');b(19,10,4,5,'#eac38c');b(14,6,5,5,'#eac38c');b(14,16,5,5,'#eac38c');b(14,11,5,5,variant?'#f6e78a':'#f7a9b7');
+ }
+},type==='tree'?52:32,type==='tree'?58:32)}
+function propSprite(kind,used=false){const k=`prop-${kind}-${used}`;return makeSprite(k,(b,l,g,w,h)=>{
+ if(kind==='rune'||kind==='core'||kind==='altar'){
+    b(8,30,34,8,'#0f2030');b(6,27,38,6,'#435565');b(11,23,28,7,'#7b8992');b(13,14,24,13,'#263950');b(10,11,30,5,'#677e88');b(15,9,20,4,'#a3aca5');
+    if(kind!=='altar'){b(20,3,10,8,used?'#83bca5':'#8bc2ff');b(22,0,6,4,used?'#d3f9d3':'#d3f6ff');b(23,5,4,6,'#f0ebd1');} else {b(23,2,4,11,'#d9c17b');b(19,6,12,4,'#d9c17b')}
+    b(17,17,4,4,'#e0bb7c');b(27,17,4,4,used?'#78d79c':'#d8ac63');
+ }else if(kind==='treasure'){
+    b(6,18,38,23,'#182332');b(8,15,34,24,'#7f4d36');b(10,15,30,10,'#c58b46');b(13,17,25,4,'#edb66d');b(8,30,34,3,'#58382d');b(22,22,8,12,used?'#4b916f':'#f8dc84');b(24,22,4,5,'#fff3b5');
+ }else if(kind==='secret'){
+    b(9,2,32,38,'#171d2d');b(10,3,30,35,'#4c5964');b(14,6,22,32,'#222d43');b(16,8,18,28,'#122437');b(16,6,18,4,'#8c9282');b(23,18,6,8,'#ead298');
+ }else if(kind==='npc'){
+    b(10,25,30,15,'#1c2633');b(12,20,26,15,'#6b6e58');b(18,8,15,18,'#c3b79a');b(19,4,13,8,'#6d7967');b(16,11,4,3,'#fcf0ac');b(27,11,4,3,'#fcf0ac');b(22,15,7,4,'#786a55');
+ }
+},50,44)}
+function pixDrawSprite(img,x,y,w,h,flipped=false,opacity=1){ctx.save();ctx.globalAlpha=opacity;ctx.imageSmoothingEnabled=false;
+ if(flipped){ctx.translate(pxInt(x+w/2),0);ctx.scale(-1,1);ctx.drawImage(img,pxInt(-w/2),pxInt(y),pxInt(w),pxInt(h))}
+ else ctx.drawImage(img,pxInt(x),pxInt(y),pxInt(w),pxInt(h)); ctx.restore();}
+function pixShadow(x,y,w=44){pr(x-w/2,y+9,w,9,'#07131b99');pr(x-w*.32,y+6,w*.64,5,'#07131bc0')}
+function pixStaticBackground(){
+ const c=document.createElement('canvas');c.width=PIX_W;c.height=PIX_H;const old=ctx;ctx=c.getContext('2d',{alpha:false});ctx.imageSmoothingEnabled=false;ctx.setTransform(.5,0,0,.5,0,0);
+ const forest=roomId.startsWith('forest');const pal=pixPalette();
+ pr(0,0,W,H,forest?'#0a2229':'#091521');
+ if(forest){
+    pr(50,68,860,470,'#14362e');pr(65,80,830,445,'#1e4c3d');
+    for(let y=80;y<526;y+=32)for(let x=64;x<898;x+=32){let q=pseed(x,y,roomId.length), path=(Math.abs(y-(300+Math.sin(x*.015)*11))<45)||(Math.abs(x-(480+Math.sin(y*.021)*12))<43);
+      const cols=path?['#736744','#887855','#a48a58','#937b4e']:['#235343','#2a644e','#2f7054','#1d4e43'];
+      pr(x,y,32,32,cols[Math.floor(q*4)]);
+      if(path){pr(x+4,y+6,6,3,'#b5a075');pr(x+20,y+23,8,2,'#5e5a3e');if(q>.65)pr(x+16,y+8,4,4,'#c8a970')}
+      else{pr(x+7,y+5,4,8,'#427e58');pr(x+9,y+3,4,4,'#4a9567');pr(x+23,y+18,8,3,'#154237');if(q>.5){pr(x+17,y+11,4,4,'#82bb77');pr(x+17,y+8,2,3,'#f4dc8d')}if(q>.8)pr(x+7,y+24,6,4,'#8dba77')}
+    }
+    pr(49,59,862,18,'#102a31');pr(49,532,862,19,'#102a31');pr(40,67,23,470,'#102a31');pr(894,67,24,470,'#102a31');
+    if(roomId==='forestRuins'){
+      for(let a=0;a<8;a++){let ang=a*Math.PI/4,x=480+Math.cos(ang)*148,y=298+Math.sin(ang)*120;pr(x-14,y-10,28,27,'#253e3c');pr(x-14,y-18,28,12,'#698374');pr(x-6,y-18,9,4,'#b7c48c')}
+      for(let a=0;a<8;a++){let ang=a*Math.PI/4, x=480+Math.cos(ang)*83,y=296+Math.sin(ang)*62;pr(x-5,y-5,10,10,'#a2c48b')}
+      pr(428,269,104,4,'#6c8d63');pr(476,221,6,139,'#6c8d63');
+    }
+    if(roomId==='forestLake'){for(let d=0;d<9;d++){let rw=190-d*13,rx=480-rw/2,y=220+d*13;pr(rx,y,rw,18,d%2?'#24707b':'#308696')}for(let i=0;i<15;i++){let x=390+(i*23)%180,y=235+(i*19)%121;pr(x,y,8,2,'#a6dfcc')}}
+    if(roomId==='forestGrove'){for(let i=0;i<13;i++){const x=120+(i*67)%770,y=145+(i*89)%280;if(Math.abs(x-480)>110) {pr(x,y,14,8,'#347653');pr(x+5,y-6,5,8,'#70b77e')}}}
+    if(roomId==='forestClearing'){for(let i=0;i<20;i++){let x=114+(i*67)%750,y=142+(i*49)%322;if(Math.abs(x-480)>100){pr(x,y,4,7,'#4fa479');pr(x-4,y-4,12,5,i%2?'#f6d37d':'#e9a0b3')}}}
+    for(let x=45;x<920;x+=44){pixDrawSprite(natureSprite('tree',Math.floor(x/44)%2),x-18,18,74,90);pixDrawSprite(natureSprite('tree',Math.floor(x/22)%2),x-22,507,74,86)}
+    for(let y=110;y<500;y+=56){pixDrawSprite(natureSprite('tree',1),10,y-30,72,86);pixDrawSprite(natureSprite('tree',0),877,y-30,72,86)}
+ }else{
+   pr(43,57,874,495,pal[0]);pr(70,82,820,440,pal[1]);
+   for(let y=84;y<526;y+=32)for(let x=70;x<895;x+=32){const q=pseed(x,y,roomId.length),idx=Math.floor(q*3);pr(x,y,30,30,pal[idx+1]);pr(x,y,30,2,pal[3]);pr(x,y+29,30,3,pal[4]);pr(x+29,y,3,29,pal[4]);if(q>.58){pr(x+8,y+12,9,2,pal[4]);pr(x+16,y+14,2,7,pal[4]);}if(q>.88)pr(x+4,y+24,3,3,pal[5]);}
+   // Tall stone boundary with stepped masonry and little arches
+   pr(34,46,892,36,'#111e2b');pr(38,48,884,14,'#425361');pr(38,60,884,15,'#283742');pr(38,76,884,10,'#66737a');
+   pr(34,522,892,32,'#1c2b36');pr(36,522,888,12,'#677079');pr(36,534,888,18,'#32404a');
+   pr(35,79,35,445,'#263844');pr(40,80,24,442,'#4e5d62');pr(890,79,35,445,'#263844');pr(898,80,17,442,'#4d575b');
+   for(let x=56;x<915;x+=65){pr(x,52,3,22,'#122332');pr(x,529,3,22,'#142735');pr(x+15,70,27,5,'#87918d')}
+   for(let y=100;y<514;y+=52){pr(42,y,19,3,'#98a49a');pr(899,y,17,3,'#98a49a');pr(34,y+8,29,2,'#14242d')}
+   // Room identity strips
+   if(roomId==='forge'){for(let i=0;i<8;i++){let y=105+i*53;pr(72,y,10,40,'#d66843');pr(74,y+6,6,22,'#ffb15c');pr(878,y,9,40,'#ad4e3b')}}
+   if(roomId==='library'){for(let i=0;i<8;i++){let x=115+i*94;pr(x,95,56,19,'#152a3a');pr(x+4,96,8,16,'#ad755c');pr(x+15,96,8,16,'#6b8dab');pr(x+27,96,8,16,'#ccac6f');pr(x+40,96,9,16,'#74588b')}}
+   if(roomId==='crypt'){for(let i=0;i<13;i++){let x=95+i*64;pr(x,132,30,8,'#6f6285');pr(x+6,125,18,7,'#a394a7')}}
+   if(roomId==='tower'){for(let i=0;i<12;i++){let a=i/12*Math.PI*2,x=480+Math.cos(a)*108,y=307+Math.sin(a)*88;pr(x-6,y-4,12,9,'#856b95')}pr(462,305,36,4,'#bd93cc');pr(478,287,4,38,'#bd93cc')}
+   if(roomId==='hub'){for(let i=0;i<10;i++){let a=i/10*Math.PI*2,x=480+Math.cos(a)*62,y=350+Math.sin(a)*48;pr(x-4,y-3,8,8,'#7ea79c')}}
+ }
+ ctx=old; pixBackgrounds.set(roomId,c);return c;
+}
+function pixDoorways(){
+ const r=room(),forest=roomId.startsWith('forest');
+ for(const [dir,target] of r.doors){let locked=(target==='tower'&&totalSeals()<3)||(target==='forestHub'&&!forestUnlocked)||(target==='forestRuins'&&!['forestB','forestC'].every(k=>solved.has(k)));if((target==='armory'&&!flag('forgeA'))||(target==='garden'&&!flag('libraryA')))locked=true;
+ const {x,y}=doorPos(dir),vertical=dir==='west'||dir==='east';
+ if(forest){pr(x-23,y-19,46,38,locked?'#813d50':'#27745b');pr(x-17,y-14,34,28,'#103b39');pr(x-7,y-8,14,14,locked?'#f3a1a9':'#bde9b2');}
+ else if(vertical){pr(x-16,y-54,32,108,'#15232f');pr(x-10,y-46,20,92,locked?'#6b3b52':'#2e6a69');pr(x-6,y-36,12,72,'#081e2a');pr(x-13,y-58,26,10,'#9ba697');pr(x-13,y+48,26,10,'#84948c')}
+ else{pr(x-59,y-16,118,30,'#14222e');pr(x-50,y-9,100,22,locked?'#6b3b52':'#3d8382');pr(x-48,y-3,96,18,'#0a2531');pr(x-60,y-18,120,7,'#919b89')}
+ // sparkling gate symbol
+ const a=Math.floor(gameTime*4)%4;pr(x-5,y-5,10,10,locked?'#ec8ba0':['#f4da97','#d9fff1','#9feddd','#f4da97'][a]);
+ }
+}
+function pixShadowRect(x,y,w){pr(x-w/2,y+7,w,9,'#07131b88')}
+function pixObject(o){
+ const used=!!(o.id&&(solved.has(o.id)||(o.id==='armoryTreasure'&&secrets.armory)||(o.id==='gardenTreasure'&&secrets.garden)||(o.id==='lakeTreasure'&&secrets.lake)));
+ const disabled=(o.kind==='core'&&!flag(o.id.replace('B','A')))||(o.kind==='secret'&&((o.id==='armory'&&!flag('forgeA'))||(o.id==='garden'&&!flag('libraryA'))||(o.id==='forestLake'&&!flag('forestA'))));
+ if(o.kind==='secret'&&disabled)return;
+ const x=o.x,y=o.y;
+ pixShadowRect(x,y,44);
+ const s=propSprite(o.kind,used);pixDrawSprite(s,x-38,y-60,76,66,false,disabled?.48:1);
+ if(!used&&!disabled){const pulse=(Math.floor(gameTime*4)%2===0);pr(x-6,y-72,12,4,pulse?'#f8e1a0':'#82d9d0');pr(x-2,y-78,4,14,'#f8dfab')}
+}
+function pixBlock(o){const {x,y,w,h}=o;if(roomId.startsWith('forest')){
+   pixShadow(x+w/2,y+h/2+16,w*.9);
+   let s=natureSprite('tree',Math.floor(x/32)%2),tw=Math.max(75,Math.min(104,w+12)),th=tw*1.12;
+   pixDrawSprite(s,x+w/2-tw/2,y+h/2-th+22,tw,th);
+   if(w>80)pixDrawSprite(natureSprite('bush',0),x+w/2-26,y+h/2+9,48,33);
+ }else{
+   // front / top / side in deliberate pixel steps
+   pr(x+9,y+15,w,h-5,'#101a28');pr(x+1,y+10,w-2,h-9,'#374654');pr(x+4,y+12,w-8,8,'#536575');pr(x+4,y+17,w-8,h-18,'#273945');pr(x-4,y-8,w+8,23,'#1b2836');pr(x-2,y-6,w+4,15,'#869493');pr(x+4,y-4,w-8,8,'#b2b9a6');pr(x+3,y+10,w-6,4,'#445862');for(let a=15;a<w-14;a+=22){pr(x+a,y+13,3,8,'#111e2b');pr(x+a,y+25,8,3,'#546372')}
+ }
+}
+function pixHero(){const moving=keys['w']||keys['a']||keys['s']||keys['d']||keys['arrowup']||keys['arrowdown']||keys['arrowleft']||keys['arrowright']||Object.values(mobile).some(Boolean);
+ const fr=moving?Math.floor(gameTime*8)%2:0,back=Math.sin(player.face)<-.43, side=Math.abs(Math.cos(player.face))>.65;
+ const sprite=unitSprite('hero',fr,back?'back':'front'),x=player.x,y=player.y;
+ pixShadow(x,y+14,35);const flip=side&&Math.cos(player.face)<0;
+ if(player.iframes>0&&Math.floor(gameTime*20)%2)ctx.globalAlpha=.54;
+ pixDrawSprite(sprite,x-34,y-58+(fr?2:0),68,78,flip);
+ ctx.globalAlpha=1;
+ if(player.attackFx>0){const q=Math.max(0,player.attackFx/.26);for(let j=-3;j<=3;j++){let a=player.face+j*.28,r=38+Math.floor((1-q)*12);pr(x+Math.cos(a)*r-3,y+Math.sin(a)*r-3,8,8,j%2?'#fff0b3':'#fffaf1')}pr(x+Math.cos(player.face)*52-6,y+Math.sin(player.face)*52-5,12,10,'#b8ecff')}
+ if(player.dashTime>0){pr(x-24,y+22,15,4,'#76cef1');pr(x+15,y+22,15,4,'#76cef1')}
+}
+function pixEnemy(e){if(!e.alive)return;const boss=e.type==='boss',x=e.x,y=e.y;pixShadow(x,y+14,boss?64:40);
+ const s=unitSprite(e.type,Math.floor(gameTime*3)%2,boss&&roomId==='forestRuins'?'forest':'front');const w=boss?102:70,h=boss?112:76;
+ pixDrawSprite(s,x-w/2,y-h+17+((Math.floor(gameTime*3)%2)*2),w,h,false,e.flash>0?.54:1);
+ if(e.flash>0){pr(x-12,y-h+23,24,7,'#ffffd5')}
+ if(e.phase==='attack' && (Math.floor(gameTime*7)%2===0)){
+   const aw=boss?91:51;pr(x-aw/2,y+24,aw,5,'#f16b81');pr(x-aw/2+6,y+19,aw-12,3,'#ffc299')}
+ if(e.hp<e.maxHp||boss){let width=boss?98:46;pr(x-width/2,y-h+10,width,9,'#10192b');pr(x-width/2+2,y-h+12,(width-4)*Math.max(0,e.hp/e.maxHp),5,boss?'#f5a8cb':'#f5a07b')}
+}
+function pixEffects(){
+ for(const p of projectiles){const x=p.x,y=p.y;pr(x-5,y-5,12,12,'#453869');pr(x-3,y-3,7,7,'#bd9afa');pr(x,y,4,4,'#fff2cf')}
+ for(const f of fx){const a=Math.max(0,f.life/f.max);const sz=a>.5?8:4;ctx.save();ctx.globalAlpha=a;pr(f.x-sz/2,f.y-sz/2,sz,sz,f.color);ctx.restore()}
+}
+function pixBarriers(){
+ if(roomId==='forge'&&!flag('forgeA'))for(let y=99;y<=501;y+=24){pr(462,y,36,20,'#54273c');pr(469,y+3,20,12,(Math.floor(gameTime*5)%2)?'#f3a044':'#e97743');pr(475,y+4,7,12,'#fbe7a3')}
+ if(roomId==='library'&&!flag('libraryA'))for(let y=102;y<=502;y+=22){pr(462,y,37,17,'#254a72');pr(470,y+3,21,10,'#9ccaf0')}
+ if(roomId==='crypt'&&!flag('cryptA'))for(let x=80;x<880;x+=26){pr(x,322,20,34,'#543e73');pr(x+4,325,11,20,'#af8fe0')}
+ if(roomId==='forestGrove'&&!flag('forestA'))for(let y=104;y<504;y+=26){pr(456,y,47,18,'#1a4834');pr(458,y+3,35,9,'#397c53');pr(467,y+5,14,4,'#91d278')}
+}
+function pixCinematic(){if(!pixelDeath)return;
+ const d=pixelDeath,p=Math.min(1,d.t/d.duration),x=d.x,y=d.y,w=d.forest?106:100,h=110;
+ // Pixel dissolving boss with rising shards, not graphic
+ if(p<.65){ctx.save();ctx.globalAlpha=1-p/.65;pixDrawSprite(unitSprite('boss',0,d.forest?'forest':'front'),x-w/2,y-h+20-p*34,w,h);ctx.restore()}
+ for(let i=0;i<26;i++){let q=pseed(i,8),rad=12+p*(38+q*105),a=i*2.399,xx=x+Math.cos(a)*rad,yy=y+Math.sin(a)*rad-30*p;pr(xx,yy,6,6,d.forest?(i%2?'#bbf3a1':'#5fd3ac'):(i%2?'#f9dca4':'#c59af9'))}
+ if(p>.25){ctx.save();ctx.globalAlpha=Math.min(.83,(p-.25)*1.05);pr(0,0,960,600,'#071622');ctx.restore()}
+ if(p>.34){const a=Math.min(1,(p-.34)*2);ctx.save();ctx.globalAlpha=a;pr(206,180,548,170,'#0b1c2d');pr(212,185,536,160,'#203448');pr(220,195,520,140,'#101c2e');pr(222,197,516,6,'#dbb872');pr(222,329,516,6,'#dbb872');pixTitle(d.forest?'BOSQUE LIBERTO':'ARQUIMAGO VENCIDO',480,250,30,'#f2d69a');pixTitle(d.forest?'O ciclo recomeça':'Uma nova trilha desperta',480,285,17,'#a3e2ca');ctx.restore()}
+}
+function pixTitle(str,x,y,size=20,color='#f7e2ac'){
+ ctx.save();ctx.fillStyle='#071622';ctx.font=`bold ${size}px monospace`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(str,x+3,y+3);ctx.fillStyle=color;ctx.fillText(str,x,y);ctx.restore();
+}
+function pixGameFrame(){
+ const canvasCtx=ctx;ctx=pixCtx;ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=false;ctx.setTransform(.5,0,0,.5,0,0);
+ if(!pixBackgrounds.has(roomId))pixStaticBackground();
+ ctx.drawImage(pixBackgrounds.get(roomId),0,0,960,600);
+ pixDoorways();pixBarriers();
+ const drawables=[];
+ for(const o of room().obstacles)drawables.push({z:o.y+o.h*.65,draw:()=>pixBlock(o)});
+ for(const o of room().objects)drawables.push({z:o.y+12,draw:()=>pixObject(o)});
+ for(const e of entities[roomId])if(e.alive)drawables.push({z:e.y+10,draw:()=>pixEnemy(e)});
+ drawables.push({z:player.y+12,draw:pixHero});
+ drawables.sort((a,b)=>a.z-b.z);
+ for(const ob of drawables)ob.draw();
+ pixEffects();
+ // ambient sparkles, cheap native-pixel 2-step animation
+ for(let i=0;i<15;i++){let x=100+(pseed(i,42)*750),y=120+pseed(i,9)*380;const a=Math.floor(gameTime*2+i)%4;if(a===0){pr(x,y,4,4,roomId.startsWith('forest')?'#b8df96':'#d5c9a4')}}
+ if(state==='start')pr(0,0,960,600,'#09152188');
+ pixCinematic();
+ ctx.setTransform(1,0,0,1,0,0);ctx=canvasCtx;canvasCtx.setTransform(1,0,0,1,0,0);canvasCtx.imageSmoothingEnabled=false;canvasCtx.clearRect(0,0,960,600);canvasCtx.drawImage(pixSurface,0,0,960,600);
+}
+
+function draw(){
+ try{pixGameFrame()}
+ catch(err){
+   if(!window.__pixelRenderError){window.__pixelRenderError=String(err);console.error('Falha gráfica. Alternando para modo seguro:',err)}
+   ctx=canvas.getContext('2d',{alpha:false});ctx.setTransform(1,0,0,1,0,0);
+   ctx.clearRect(0,0,W,H);baseRoom();for(const ob of room().obstacles)drawObstacle(ob);drawBarriers();drawObjects();drawProjectiles();
+   for(const e of entities[roomId])drawEnemy(e);drawHero();drawFx();drawCompass();
+ }
 }
 function frameTick(ms){const dt=Math.min(.045,Math.max(0,(ms-last)/1000||0));last=ms;update(dt);draw();requestAnimationFrame(frameTick)}
 function down(k){if(k==='e')interact();if(k==='j'||k===' ')attack();if(k==='shift')dash();if(k==='q')potion();if(k==='m')showMap();if(k==='p'){if(state==='playing')showTalk('Jogo pausado','Use o botão para voltar à aventura.');}}
 window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowup','arrowleft','arrowright','arrowdown',' ','shift'].includes(k))e.preventDefault();if(state==='start'&&k==='enter'){init();return}if(state==='dialog'){if(k==='escape')closeDialog();return}if(state==='end')return;if(state==='playing'&&!keys[k])down(k);keys[k]=true;});window.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false});window.addEventListener('blur',()=>{keys={};mobile={up:false,down:false,left:false,right:false}});
 for(const b of document.querySelectorAll('[data-move]')){const d=b.dataset.move;b.addEventListener('pointerdown',e=>{e.preventDefault();mobile[d]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>mobile[d]=false)}
 for(const b of document.querySelectorAll('[data-act]'))b.addEventListener('pointerdown',e=>{e.preventDefault();const a=b.dataset.act;if(a==='attack')attack();if(a==='interact')interact();if(a==='dash')dash()});
-$('playButton').onclick=()=>{playMode=$('studyMode').checked;init()};$('restartButton').onclick=()=>{visitedRooms.clear();visitedRooms.add('hub');init()};$('mapButton').onclick=()=>showMap();$('helpButton').onclick=showHelp;$('endMapButton').onclick=()=>showMap();$('fullButton').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else stage.requestFullscreen?.()};$('soundButton').onclick=()=>{soundOn=!soundOn;$('soundButton').textContent=soundOn?'♪ Som: on':'♪ Som: off';if(soundOn)sfx('unlock')};
+$('playButton').onclick=()=>{playMode=$('studyMode').checked;init()};$('forestButton').onclick=()=>{playMode=$('studyMode').checked;init();forestUnlocked=true;forestChapter=true;enter('forestHub',480,465);toast('Capítulo II: as trilhas do bosque aguardam você.',4)};$('restartButton').onclick=()=>{visitedRooms.clear();visitedRooms.add('hub');init()};$('mapButton').onclick=()=>showMap();$('helpButton').onclick=showHelp;$('endMapButton').onclick=()=>showMap();$('fullButton').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else stage.requestFullscreen?.()};$('soundButton').onclick=()=>{soundOn=!soundOn;$('soundButton').textContent=soundOn?'♪ Som: on':'♪ Som: off';if(soundOn)sfx('unlock')};
 window.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='f'&&!e.repeat&&state!=='dialog'){if(document.fullscreenElement)document.exitFullscreen();else stage.requestFullscreen?.()}});
 // testing hooks exposed only for automated functional checks, not necessary for playing
-window.__cryptaTest={get:()=>({state,roomId,seals:{...seals},solved:[...solved],kills,hp:player.hp,puzzle,elapsed,player:{x:player.x,y:player.y},enemies:entities[roomId].filter(e=>e.alive).map(e=>({type:e.type,hp:e.hp,x:e.x,y:e.y}))}),enter:(id,x=480,y=300)=>{if(ROOMS[id])enter(id,x,y)},position:(x,y)=>{player.x=x;player.y=y},open:(id)=>{if(PUZZLES[id])showPuzzle(id)},solve:()=>{if(puzzle)completePuzzle()},attack,interact};
+window.__cryptaTest={get:()=>({state,roomId,seals:{...seals},forestChapter,forestUnlocked,solved:[...solved],kills,hp:player.hp,puzzle,elapsed,player:{x:player.x,y:player.y},enemies:entities[roomId].filter(e=>e.alive).map(e=>({type:e.type,hp:e.hp,x:e.x,y:e.y}))}),enter:(id,x=480,y=300)=>{if(ROOMS[id])enter(id,x,y)},position:(x,y)=>{player.x=x;player.y=y},open:(id)=>{if(PUZZLES[id])showPuzzle(id)},solve:()=>{if(puzzle)completePuzzle()},attack,interact};
 const origEnter=enter;enter=(id,x,y)=>{visitedRooms.add(id);origEnter(id,x,y)};
 updateHud();requestAnimationFrame(frameTick);
 })();
